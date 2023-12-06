@@ -11,9 +11,14 @@ $options_dev = array('cache' => false, 'autoescape' => true);
 /* stocker la configuration */
 $twig = new Twig\Environment($loader);
 /* charger+compiler le template, exécuter, envoyer le résultat au navigateur */
+
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
 } else {
     $page = 'accueil';
+}
+//vérifie si la page existe
+if (!file_exists("vue/$page.html.twig")) {
+    $page = '404';
 }
 echo $twig->render("$page.html.twig");
