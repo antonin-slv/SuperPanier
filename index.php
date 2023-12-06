@@ -11,6 +11,9 @@ $options_dev = array('cache' => false, 'autoescape' => true);
 /* stocker la configuration */
 $twig = new Twig\Environment($loader);
 /* charger+compiler le template, exécuter, envoyer le résultat au navigateur */
+
+
+
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
 } else {
