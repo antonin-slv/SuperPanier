@@ -19,4 +19,8 @@ if (isset($_GET['page'])) {
 } else {
     $page = 'accueil';
 }
+//vérifie si la page existe
+if (!file_exists("vue/$page.html.twig")) {
+    $page = '404';
+}
 echo $twig->render("$page.html.twig");
