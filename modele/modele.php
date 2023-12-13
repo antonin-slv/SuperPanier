@@ -2,16 +2,17 @@
 require("connect.php");
 
 
-abstract class Modele {
+abstract class Modele
+{
 
-    private $connexion = NULL;
-    
+    private $connexion;
+
     function getBDD()
     {
-        if (self::$connexion == NULL) {
+        if ($this->connexion == NULL) {
             $dsn = "mysql:dbname=" . BASE . ";host=" . SERVER;
             try {
-                self::$connexion = new PDO($dsn, USER, PASSWD);
+                $this->connexion = new PDO($dsn, USER, PASSWD);
             } catch (PDOException $e) {
                 printf("Échec de la connexion : %s\n", $e->getMessage());
                 $this->connexion = NULL;
@@ -19,6 +20,17 @@ abstract class Modele {
         }
         return $this->connexion;
     }
+    protected function executerRequete($sql, $params = null)
+    {
+        if ($params == null) {
+            $resultat = $this->getBdd()->query($sql); // exécution directe
+        } else {
+            $resultat = $this->getBdd()->prepare($sql); // requête préparée
+            $resultat->execute($params);
+        }
+        return $resultat;
+    }
+}
 /*
     function add_friend($data)
     {
@@ -30,4 +42,4 @@ abstract class Modele {
         ));
     }*/
 
-}
+

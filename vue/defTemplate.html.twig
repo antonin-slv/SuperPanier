@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}IsiWeb4Shop{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -15,16 +15,8 @@
                 <a href="index.php"> Accueil </a>
                 <a href="index.php"> Panier/Payer </a>
             </bandeau>
-            <nav>
-                <h2> Notre offre </h2>
-                <ul>
-                    <li> <a href="index.php?page=boissons"> Boissons </a> </li>
-                    <li> <a href="index.php?page=fruits_sec"> fruits secs </a> </li>
-                    <li> <a href="index.php?page=biscuits"> biscuits </a> </li>
-                </ul>
 
-                <a href="index.php"> Connexion </a>
-            </nav>
+            {% include 'navbar.html.twig' %}
 
             {% block body %}{% endblock %}
             
