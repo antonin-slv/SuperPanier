@@ -18,6 +18,6 @@ class CtrlShop
     public function afficherShop()
     {
         $shop = $this->shop->getProduits();
-        echo $this->twig->render("$this->page.html.twig", $shop->fetchAll());
+        echo $this->twig->render("$this->page.html.twig", ['shop'=> $shop] );
     }
 }

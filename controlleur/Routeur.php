@@ -32,7 +32,7 @@ class Routeur
                 $ctrlShop->afficherShop();
             }
             elseif ($page == 'panier') {
-                $ctrlPanier = new CtrlPanier();
+                $ctrlPanier = new CtrlPanier($this->twig);
                 $ctrlPanier->afficherPanier();
             }
             else {

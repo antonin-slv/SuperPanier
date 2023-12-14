@@ -22,12 +22,16 @@ abstract class Modele
     }
     protected function executerRequete($sql, $params = null)
     {
+        $BDD = $this->getBDD();
         if ($params == null) {
-            $resultat = $this->getBdd()->query($sql); // exécution directe
+            $resultat = $BDD->query($sql); // exécution directe
+            $resultat = $resultat->fetchAll();
         } else {
-            $resultat = $this->getBdd()->prepare($sql); // requête préparée
+
+            $resultat = $BDD->prepare($sql); // requête préparée
             $resultat->execute($params);
         }
+        
         return $resultat;
     }
 }

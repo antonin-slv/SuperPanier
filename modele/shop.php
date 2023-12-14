@@ -16,7 +16,8 @@ class shop extends Modele {
                 $type = 3;
                 break;
         }
-        $sql = "SELECT * FROM products WHERE cat_id = $type";
+        $sql = "SELECT name, image, description, price, quantity FROM products WHERE cat_id = $type;";
+        //$sql = "SELECT * FROM products WHERE cat_id = $type;";
         $this->produits = $this->executerRequete($sql);
     }
     
