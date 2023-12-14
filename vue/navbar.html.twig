@@ -1,10 +1,15 @@
 
 <nav>
     <h2> Notre offre </h2>
-    <ul>
-        <li> <a href="index.php?page=boissons"> Boissons </a> </li>
-        <li> <a href="index.php?page=fruits_sec"> fruits secs </a> </li>
-        <li> <a href="index.php?page=biscuits"> biscuits </a> </li>
+    <ul class='list-group list-group-horizontal'>
+        <!-- on montre la classe active si la page est la page courante avec twig et bootstrap -->
+        <li class={{page == 'fruits_sec' ? '"list-group-item active"' : '"list-group-item"'}}>
+            <a href="index.php?page=fruits_sec"> fruits secs </a>
+        </li>
+
+
+        <li class="list-group-item"> <a href="index.php?page=boissons"> Boissons </a> </li>
+        <li class="list-group-item"> <a href="index.php?page=biscuits"> biscuits </a> </li>
     </ul>
 
     <a href="index.php"> Connexion </a>
