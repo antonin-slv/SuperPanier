@@ -7,15 +7,18 @@
             <li>{{ biscuit.name }}</li>
         {% endfor %}
     </ul>
-    {% for biscuit in shop %}
-        <div class="card">
-            <img src="Contenu/productimages/{{ biscuit.image }}" class="card-img-top" alt="{{ biscuit.name }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ biscuit.name }}</h5>
-                <p class="card-text">{{ biscuit.description }}</p>
-                <p class="card-text">Price: {{ biscuit.price }} euro</p>
-                <p class="card-text">Stock: {{ biscuit.quantity }}</p>
+    <div class="row">
+        {% for biscuit in shop %}
+            <div class="card" style="width: 18rem;">
+                <img src="Contenu/productimages/{{ biscuit.image }}" class="card-img-top" alt="{{ biscuit.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ biscuit.name }}</h5>
+                    <p class="card-text">{{ biscuit.description }}</p>
+                    <p class="card-text">Price: {{ biscuit.price }} euro</p>
+                    <p class="card-text">Stock: {{ biscuit.quantity }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
+
