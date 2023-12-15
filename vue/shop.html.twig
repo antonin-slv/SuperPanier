@@ -9,7 +9,7 @@
         
         <div class="row mx-auto" style="width: 90%;">
             {% for produit in shop|sort((b,a)=> a.quantity <=> b.quantity) %}
-                <div class="card mx-auto my-2 text-center" style="width: 18rem;">
+                <div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
                     <img src="Contenu/productimages/{{ produit.image }}" class="card-img-top" alt="{{ produit.name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ produit.name }}</h5>
