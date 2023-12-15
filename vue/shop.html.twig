@@ -1,23 +1,27 @@
 {% extends 'defTemplate.html.twig' %}
 {% block body %}
     Vos produits :
-    <form action="index.php?action=addToCart" method="post">
+    <form action="index.php?page=shop&product={{product}}&action=addToCart" method="post">
         
         <div class="row sticky-top bg-info py-2" style="padding-left: 80%;">
-            <button type="submit" class="" style="width: 5rem;" >Valider</button>
+            <button type="submit" style="width: 5rem;" >Valider</button>
         </div>
         
         <div class="row mx-auto" style="width: 90%;">
             {% for produit in shop|sort((b,a)=> a.quantity <=> b.quantity) %}
-                <div class="card mx-auto my-2 text-center" style="width: 18rem;">
+                <div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
                     <img src="Contenu/productimages/{{ produit.image }}" class="card-img-top" alt="{{ produit.name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ produit.name }}</h5>
                         <p class="card-text">{{ produit.description }}</p>
                         <p class="card-text">Prix: {{ produit.price }} €</p>
-                        <p class="card-text">Stock: {{ produit.quantity }}</p>
-                        <input type="hidden" name="id" value="{{ produit.id }}">
-                        <input type="number" name="quantity" value="0" min="0" max="{{ produit.quantity }}">
+                        {% if produit.quantity == 0 %}
+                            <p class="card-text text-danger">Rupture de stock</p>
+                        {% else %}
+                            <p class="card-text">Stock: {{ produit.quantity }}</p>
+                            <input type="hidden" name="id" value="{{ produit.id }}">
+                            <input type="number" name="quantity" value="0" min="0" max="{{ produit.quantity }}">
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
