@@ -1,28 +1,6 @@
-
-<nav>
-    <bandeau>
-        <a href="index.php"> Accueil </a>
-        <a href="index.php"> Panier/Payer </a>
-    </bandeau>
-
-    <h2> Notre offre </h2>
-    <ul class='list-group list-group-horizontal'>
-        <!-- on montre la classe active si la page est la page courante avec twig et bootstrap -->
-        <li class={{page == 'fruits_sec' ? '"list-group-item active"' : '"list-group-item"'}}>
-            <a href="index.php?page=shop&product=fruits_sec"> fruits secs </a>
-        </li>
-
-
-        <li class="list-group-item"> <a href="index.php?page=shop&product=boissons"> Boissons </a> </li>
-        <li class="list-group-item"> <a href="index.php?page=shop&product=biscuits"> biscuits </a> </li>
-    </ul>
-
-    <a href="index.php"> Connexion </a>
-</nav>
-
-<div class="bs-component">
+<div class="bs-component sticky-top">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">ISIWEB4SHOP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,28 +8,35 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto nav-pills">
         <li class="nav-item active">
-            <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="index.php">Accueil <!--<span class="sr-only">(current)</span>--></a>
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
             <div class="dropdown-menu" style="will-change: transform;">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-            </div>
+            <a class="dropdown-item" href="index.php?page=shop&product=fruits_sec">Fruits Secs</a>
+            <a class="dropdown-item" href="index.php?page=shop&product=boissons">Boissons</a>
+            <a class="dropdown-item" href="index.php?page=shop&product=biscuits">Biscuits</a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#">à Propos</a>
         </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <!--   - - - - - POUR UNE BARRE DE RECHERCHE - - - - - - - - - 
         <input class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+      
+        -->
+        <li class="nav-item" style='margin-left: 100px; '>
+            <a class="nav-link" href="index.php?page=panier">
+                <img src="Contenu\images\panier.png" alt="panier" width="25" height="25">
+            </a>
+        </li> 
+        <li class="nav-item">
+            <a class="nav-link" href="#">Connexion <i class="fas fa-sign-in-alt"></i></a>
+        </li>
+        
+        </ul>
     </div>
     </nav>
 </div>
