@@ -27,9 +27,13 @@ class Routeur
                 //on sort la page 404
                 echo $this->twig->render('404.html.twig', array('page' => $page));
             }
-            elseif ($page == 'biscuits' || $page == 'boissons' || $page == 'fruits_sec') {
-                $ctrlShop = new CtrlShop($this->twig,$page);
-                $ctrlShop->afficherShop();
+            elseif ($page == 'shop') {
+                if(isset($_GET['product'])){
+                    $ctrlShop = new CtrlShop($this->twig,$_GET['product']);
+                    $ctrlShop->afficherShop();
+                }else{
+                    echo $this->twig->render('404.html.twig', array('page' => 'page de shop inconnue'));
+                }
             }
             elseif ($page == 'panier') {
                 $ctrlPanier = new CtrlPanier($this->twig);
