@@ -13,22 +13,18 @@ class user extends Modele {
     private $admin;
 
     
-    /*
-    public function __construct($string) {
-        parent::__construct();
-        if ($string == "create") {
-            $this->createUser();
-            $this->connectUser();
-        }
-        elseif ($string == "connect") {
-            $this->connectUser();
-        }
-        elseif ($string == "disconnect") {
-            $this->disconnectUser();
-        }
+    
+    public function __construct() {
     }
 
     public function createUser() {
+        //vérification du pseudo
+        $sql="SELECT * FROM logins WHERE username =\"". $_POST['pseudo'] ."\"";
+        $resultat = $this->executerRequete($sql);
+        if ($resultat) {
+            return "Pseudo";
+        }
+        /*
         //init des variables
         $this->prenom = $_POST['prenom'];
         $this->nom = $_POST['nom'];
@@ -44,23 +40,35 @@ class user extends Modele {
         $this->adresse['ville'] = $_POST['ville'];
         $this->adresse['code_postal'] = $_POST['code_postal'];
 
-        
-        //on insère dans la bdd
-        $sql="INSERT INTO customer (forname, surname, email, add1, add2, add3, postcode, phone,registered) ";
-        $sql.="VALUES (:prenom, :nom, :mail, :num, :rue, :ville, :codePostal, :telephone, :registered)";
-        $req = $this->getBDD()->prepare($sql);
+        //on insère l'adresse dans la bdd
+        $sql="INSERT INTO adresse (numero_rue, rue, ville, code_postal) ";
+        $sql.="VALUES (:num, :rue, :ville, :codePostal)";
+        $this->executerRequete($sql,
+            array(
+                'num' => $this->adresse['numero_rue'],
+                'rue' => $this->adresse['rue'],
+                'ville' => $this->adresse['ville'],
+                'codePostal' => $this->adresse['code_postal']
+            )
+        );
 
-        $req->execute(array(
-            'prenom' => $this->prenom,
-            'nom' => $this->nom,
-            'mail' => $this->mail,
-            'num' => $this->adresse['numero_rue'],
-            'rue' => $this->adresse['rue'],
-            'ville' => $this->adresse['ville'],
-            'codePostal' => $this->adresse['code_postal'],
-            'telephone' => $this->numero_tel,
-            'registered' => $this->registered
-        ));
+        //on récupère l'id de l'adresse avec la dernière insertion
+        $this->adresse['id'] = $this->getBDD()->lastInsertId();
+
+        //on insère le user dans la bdd
+        $sql="INSERT INTO customer (first_name, last_name, email, phone_number, registered, admin, address_id) ";
+        $sql.="VALUES (:prenom, :nom, :mail, :numeroTel, :registered, :admin, :adresseId)";
+        $this->executerRequete($sql,
+            array(
+                'prenom' => $this->prenom,
+                'nom' => $this->nom,
+                'mail' => $this->mail,
+                'numeroTel' => $this->numero_tel,
+                'registered' => $this->registered,
+                'admin' => $this->admin,
+                'adresseId' => $this->adresse['id']
+            )
+        );
 
         //on récupère l'id du user avec la dernière insertion
         $this->ID = $this->getBDD()->lastInsertId();
@@ -69,16 +77,15 @@ class user extends Modele {
         $this->mdp = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
         //on insère le mdp hashé dans la bdd
-        $sql="INSERT INTO login (Customer_id, password, username) ";
+        $sql="INSERT INTO logins (Customer_id, password, username) ";
         $sql.="VALUES (:id, :mdp, :pseudo)";
-        $req = $this->getBDD()->prepare($sql);
-        $req->execute(array(
-            'id' => $this->ID,
-            'mdp' => $this->mdp,
-            'pseudo' => $this->pseudo
-        ));
-
-
+        $this->executerRequete($sql,
+            array(
+                'id' => $this->ID,
+                'mdp' => $this->mdp,
+                'pseudo' => $this->pseudo
+            )
+        );
+        */
     }
-    */
 }

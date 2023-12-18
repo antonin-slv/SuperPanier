@@ -45,13 +45,9 @@ class Routeur
                 $ctrlProduit = new CtrlProduit($this->twig,$_GET['product_id']);
                 $ctrlProduit->afficherProduit();
             }
-            elseif ($page == 'connexion') {
+            elseif ($page == 'connexion' || $page == 'deconnexion' || $page == 'register') {
                 $ctrlConnexion = new CtrlConnexion($this->twig);
-                $ctrlConnexion->afficherConnexion();
-            }
-            elseif ($page == 'register') {
-                $ctrlConnexion = new CtrlConnexion($this->twig);
-                $ctrlConnexion->afficherRegister();
+                $ctrlConnexion->afficherPage($page);
             }
             else {
                 echo $this->twig->render("accueil.html.twig");
