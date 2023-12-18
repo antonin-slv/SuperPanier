@@ -1,0 +1,123 @@
+{% extends 'defTemplate.html.twig' %}
+
+{% block body %}
+
+	<section class="h-100 h-custom gradient-custom-2">
+        <form action="index.php?page=connexion" method="POST">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12">
+					<div class="card card-registration card-registration-2" style="border-radius: 15px;">
+						<div class="card-body p-0">
+							<div class="row g-0">
+								<div class="col-lg-6">
+									<div class="p-5">
+										<h3 class="fw-normal mb-5" style="color: #4835d4;">Infomation Générales</h3>
+										<div class="row">
+											<div class="col-md-6 mb-4 pb-2">
+
+												<div class="form-outline">
+													<input type="text" id="prenom" name="prenom" class="form-control form-control-lg" required/>
+													<label class="form-label" for="prenom">Prénom</label>
+												</div>
+
+											</div>
+											<div class="col-md-6 mb-4 pb-2">
+
+												<div class="form-outline">
+													<input type="text" id="nom" name="nom" class="form-control form-control-lg" required/>
+													<label class="form-label" for="nom">Nom</label>
+												</div>
+
+											</div>
+										</div>
+
+                                        <div class="row">
+											<div class="col-md-6 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="password" id="mdp" name="mdp" class="form-control form-control-lg" required/>
+													<label class="form-label" for="mdp">Mot de passe</label>
+												</div>
+
+											</div>
+											<div class="col-md-6 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="number" id="numero_tel" name="numero_tel" class="form-control form-control-lg" required/>
+													<label class="form-label" for="numero_tel">Numéro de Téléphone</label>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="mb-4">
+											<div class="form-outline form-white">
+												<input type="email" id="mail" name="mail" class="form-control form-control-lg" required/>
+												<label class="form-label" for="mail">Votre Email</label>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="p-5">
+										<h3 class="fw-normal mb-5">Adresse</h3>
+
+										<div class="row">
+											<div class="col-md-5 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="text" id="numero_rue" name="numero_rue" class="form-control form-control-lg" required/>
+													<label class="form-label" for="numero_rue">Numéro</label>
+												</div>
+
+											</div>
+											<div class="col-md-7 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="text" id="rue" name="rue" class="form-control form-control-lg" required/>
+													<label class="form-label" for="rue">Rue</label>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="mb-4 pb-2">
+											<div class="form-outline form-white">
+												<input type="text" id="ville" name="ville" class="form-control form-control-lg" required/>
+												<label class="form-label" for="ville">Ville</label>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-5 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="text" id="code_postal" name="code_postal" class="form-control form-control-lg" required/>
+													<label class="form-label" for="code_postal">Code postal</label>
+												</div>
+
+											</div>
+											<div class="col-md-7 mb-4 pb-2">
+
+												<div class="form-outline form-white">
+													<input type="text" id="pays" name="pays" class="form-control form-control-lg" required/>
+													<label class="form-label" for="pays">Pays</label>
+												</div>
+
+											</div>
+										</div>
+										<button type="Submit" action="Submit" class="btn btn-light btn-lg" data-mdb-ripple-color="dark">Register</button>
+									</div>
+								</div>
+                                
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        </form>
+	</section>
+{% endblock %}
