@@ -3,6 +3,7 @@ require_once 'vendor/autoload.php'; //pour TWIG
 include_once('CtrlPanier.php');
 include_once('CtrlShop.php');
 include_once('CtrlConnexion.php');
+include_once('CtrlProduit.php');
 class Routeur
 {
     private $twig;
@@ -40,6 +41,10 @@ class Routeur
                 $ctrlPanier = new CtrlPanier($this->twig);
                 $ctrlPanier->afficherPanier();
             }
+            elseif ($page == 'produit') {
+                $ctrlProduit = new CtrlProduit($this->twig,$_GET['product_id']);
+                $ctrlProduit->afficherProduit();
+            }
             elseif ($page == 'connexion') {
                 $ctrlConnexion = new CtrlConnexion($this->twig);
                 $ctrlConnexion->afficherConnexion();
@@ -48,7 +53,7 @@ class Routeur
                 $ctrlConnexion = new CtrlConnexion($this->twig);
                 $ctrlConnexion->afficherRegister();
             }
-            else {  // comportement par défaut
+            else {
                 echo $this->twig->render("accueil.html.twig");
             }
         }
