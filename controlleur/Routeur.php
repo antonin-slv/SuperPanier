@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php'; //pour TWIG
 include_once('CtrlPanier.php');
 include_once('CtrlShop.php');
+include_once('CtrlConnexion.php');
 class Routeur
 {
     private $twig;
@@ -32,13 +33,18 @@ class Routeur
                     $ctrlShop = new CtrlShop($this->twig,$_GET['product']);
                     $ctrlShop->afficherShop();
                 }else{
-                    echo $this->twig->render('404.html.twig', array('page' => 'page de shop inconnue'));
+                    echo $this->twig->render('404.html.twig', array('page' => 'Choisissez un produit'));
                 }
             }
             elseif ($page == 'panier') {
                 $ctrlPanier = new CtrlPanier($this->twig);
                 $ctrlPanier->afficherPanier();
             }
+            elseif ($page == 'connexion') {
+                $ctrlConnexion = new CtrlConnexion($this->twig);
+                $ctrlConnexion->afficherConnexion();
+            }
+
             else {
                 echo $this->twig->render("accueil.html.twig");
             }
@@ -47,5 +53,15 @@ class Routeur
             echo $this->twig->render("accueil.html.twig");
         }      
 
+    }
+
+    public function initSession(){
+        session_start();
+        //vérifie si la session est déjà initialisée
+        if(!isset($_SESSION['CustomerID'])){
+            $_SESSION['CustomerID'] = session_id();
+            $_SESSION['Connected'] = false;
+            $_SESSION['Panier'] = array();
+        }
     }
 }

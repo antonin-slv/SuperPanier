@@ -1,1 +1,32 @@
 {% extends 'defTemplate.html.twig' %}
+
+{% block body %}
+	<div class="container">
+
+		<form method="POST" action="index.php?action=connexion"
+			class="mx-auto mt-2 border border-blue p-5"
+            style="width: 400px;"
+            >
+			<!-- Email input -->
+			<div class="form-outline mb-4">
+				<input type="email" id="Mail" name="Mail" class="form-control" required/>
+				<label class="form-label" for="Mail" >Email address</label>
+			</div>
+
+			<!-- Password input -->
+			<div class="form-outline mb-4">
+				<input type="password" id="MdP" name="MdP" class="form-control" required/>
+				<label class="form-label" for="MdP" required>Password</label>
+			</div>
+			<!-- Submit button -->
+			<button type="Submit" value="Submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+			<!-- Register buttons -->
+			<div class="text-center">
+				<p>Not a member?
+					<a href="#!">Register</a>
+				</p>
+			</div>
+		</form>
+	</div>
+{% endblock %}

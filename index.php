@@ -1,7 +1,9 @@
 <?php
-//-- ------ Partie 1 : Front Loader ---------- -->
+
 
 require_once 'controlleur/Routeur.php';
 
 $routeur = new Routeur();
-$routeur->routerRequete();
+$routeur->initSession();
+$routeur->routerRequete(); //c'est le routeur qui met en relation les controlleurs
+var_dump($_SESSION);
