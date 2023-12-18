@@ -9,4 +9,8 @@ class CtrlConnexion {
     public function afficherConnexion() {
         echo $this->twig->render('connexion.html.twig');
     }   
+
+    public function afficherRegister() {
+        echo $this->twig->render('register.html.twig');
+    }
 }

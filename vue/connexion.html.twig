@@ -2,31 +2,31 @@
 
 {% block body %}
 	<div class="container">
+	
+		<div class="mx-auto mt-2 border border-blue p-3" style="width: 400px;">
+			<h3 class="text-center">Connexion</h3>
+			<form method="POST" action="index.php?action=connexion" class="p-4">
 
-		<form method="POST" action="index.php?action=connexion"
-			class="mx-auto mt-2 border border-blue p-5"
-            style="width: 400px;"
-            >
-			<!-- Email input -->
-			<div class="form-outline mb-4">
-				<input type="email" id="Mail" name="Mail" class="form-control" required/>
-				<label class="form-label" for="Mail" >Email address</label>
-			</div>
+				<!-- Email input -->
+				<div class="form-outline mb-4">
+					<input type="email" id="mail" name="mail" class="form-control" required/>
+					<label class="form-label" for="mail">Email address</label>
+				</div>
 
-			<!-- Password input -->
-			<div class="form-outline mb-4">
-				<input type="password" id="MdP" name="MdP" class="form-control" required/>
-				<label class="form-label" for="MdP" required>Password</label>
-			</div>
-			<!-- Submit button -->
-			<button type="Submit" value="Submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+				<!-- Password input -->
+				<div class="form-outline mb-4">
+					<input type="password" id="mdp" name="mdp" class="form-control" required/>
+					<label class="form-label" for="mdp" required>Password</label>
+				</div>
+				<!-- Submit button -->
+				<button type="Submit" value="Submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
-			<!-- Register buttons -->
-			<div class="text-center">
-				<p>Not a member?
-					<a href="#!">Register</a>
-				</p>
-			</div>
-		</form>
-	</div>
-{% endblock %}
+				<!-- Register buttons -->
+				<div class="text-center">
+					<p>Not a member?
+						<a href="index.php?page=register">Register</a>
+					</p>
+				</div>
+			</form>
+		</div>
+	{% endblock %}

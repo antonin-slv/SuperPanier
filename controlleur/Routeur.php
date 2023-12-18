@@ -44,8 +44,11 @@ class Routeur
                 $ctrlConnexion = new CtrlConnexion($this->twig);
                 $ctrlConnexion->afficherConnexion();
             }
-
-            else {
+            elseif ($page == 'register') {
+                $ctrlConnexion = new CtrlConnexion($this->twig);
+                $ctrlConnexion->afficherRegister();
+            }
+            else {  // comportement par défaut
                 echo $this->twig->render("accueil.html.twig");
             }
         }
