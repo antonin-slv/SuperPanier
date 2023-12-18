@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le :  jeu. 23 jan. 2020 à 20:24
--- Version du serveur :  10.3.21-MariaDB
--- Version de PHP :  7.3.6
+-- Hôte : 127.0.0.1
+-- Généré le : lun. 18 déc. 2023 à 20:37
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,10 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `web4shop`
+-- Base de données : `web4shop`
 --
-CREATE DATABASE IF NOT EXISTS `web4shop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `web4shop`;
 
 -- --------------------------------------------------------
 
@@ -34,7 +31,7 @@ CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `admin`
@@ -46,13 +43,39 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `adresses`
+--
+
+CREATE TABLE `adresses` (
+  `numero` varchar(6) NOT NULL,
+  `rue` varchar(50) NOT NULL,
+  `ville` varchar(50) NOT NULL,
+  `code_postal` varchar(6) NOT NULL,
+  `Pays` varchar(32),
+  `id` int(32) NOT NULL,
+  `info_supp` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `adresses`
+--
+
+INSERT INTO `adresses` (`numero`, `rue`, `ville`, `code_postal`, `Pays`, `id`, `info_supp`) VALUES
+('ligne ', 'ligne add2', 'Meximieux', '01800', 'France', 1, NULL),
+('ladd1', 'ligneadd2', 'Lyon', '69009', 'France', 2, NULL),
+('15', 'Rue de la paix', 'Saint Etienne', '42000', 'France', 3, NULL),
+('12', 'avenue condorc', 'Saint Priest', '45097', 'France', 4, 'étage 2');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `categories`
 --
 
 CREATE TABLE `categories` (
   `id` tinyint(4) NOT NULL,
   `name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `categories`
@@ -71,24 +94,21 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
-  `forname` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `add1` varchar(50) NOT NULL,
-  `add2` varchar(50) NOT NULL,
-  `add3` varchar(50) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `registered` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `forname` varchar(50),
+  `surname` varchar(50) ,
+  `phone` varchar(20),
+  `email` varchar(150) ,
+  `registered` tinyint(4) DEFAULT NULL,
+  `adresse_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `customers`
 --
 
-INSERT INTO `customers` (`id`, `forname`, `surname`, `add1`, `add2`, `add3`, `postcode`, `phone`, `email`, `registered`) VALUES
-(1, 'Sarah', 'Hamida', 'ligne add1', 'ligne add2', 'Meximieux', '01800', '0612345678', 's.hamida@gmail.com', 1),
-(2, 'Jean-Benoît', 'Delaroche', 'ligne add1', 'ligne add2', 'Lyon', '69009', '0796321458', 'jb.delaroche@gmx.fr', 1);
+INSERT INTO `customers` (`id`, `forname`, `surname`, `phone`, `email`, `registered`, `adresse_id`) VALUES
+(1, 'Sarah', 'Hamida', '0612345678', 's.hamida@gmail.com', 1, 1),
+(2, 'Jean-Benoît', 'Delaroche', '0796321458', 'jb.delaroche@gmx.fr', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -100,23 +120,20 @@ CREATE TABLE `delivery_addresses` (
   `id` int(11) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `add1` varchar(50) NOT NULL,
-  `add2` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `email` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `email` varchar(150) NOT NULL,
+  `adresse_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `delivery_addresses`
 --
 
-INSERT INTO `delivery_addresses` (`id`, `firstname`, `lastname`, `add1`, `add2`, `city`, `postcode`, `phone`, `email`) VALUES
-(46, 'Christian', 'Hamida', '15 Rue de la paix', '', 'Saint Etienne', '42000', '0477213145', 'chr.hamida@gmail.com'),
-(47, 'Sarah', 'Hamida', 'ligne add1', 'ligne add2', 'Meximieux', '01800', '0612345678', 's.hamida@gmail.com'),
-(48, 'Jean-Benoît', 'Delaroche', 'ligne add1', 'ligne add2', 'Lyon', '69009', '0796321458', 'jb.delaroche@gmx.fr'),
-(49, 'Louise', 'Delaroche', '12 avenue condorcet', 'étage 2', 'Saint Priest', '45097', '0526117898', 'louise.delaroche@yahoo.fr');
+INSERT INTO `delivery_addresses` (`id`, `firstname`, `lastname`, `phone`, `email`, `adresse_id`) VALUES
+(46, 'Christian', 'Hamida', '0477213145', 'chr.hamida@gmail.com', 3),
+(47, 'Sarah', 'Hamida', '0612345678', 's.hamida@gmail.com', 1),
+(48, 'Jean-Benoît', 'Delaroche', '0796321458', 'jb.delaroche@gmx.fr', 2),
+(49, 'Louise', 'Delaroche', '0526117898', 'louise.delaroche@yahoo.fr', 4);
 
 -- --------------------------------------------------------
 
@@ -129,7 +146,7 @@ CREATE TABLE `logins` (
   `customer_id` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `logins`
@@ -150,7 +167,7 @@ CREATE TABLE `orderitems` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `orderitems`
@@ -186,17 +203,17 @@ CREATE TABLE `orders` (
   `status` tinyint(4) NOT NULL,
   `session` varchar(100) NOT NULL,
   `total` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `orders`
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `registered`, `delivery_add_id`, `payment_type`, `date`, `status`, `session`, `total`) VALUES
-(63, '1', 1, 47, 'cheque', '2020-01-23', 10, 'da8bcdf51121d96c71673295b825a010', 86.2),
-(64, '1', 1, 47, 'paypal', '2020-01-23', 3, 'da8bcdf51121d96c71673295b825a010', 87),
-(65, '2', 1, 49, 'cheque', '2020-01-23', 10, 'da8bcdf51121d96c71673295b825a010', 51.2),
-(66, '2', 1, 49, 'cheque', '2020-01-23', 2, 'da8bcdf51121d96c71673295b825a010', 42.3);
+(63, 1, 1, 47, 'cheque', '2020-01-23', 10, 'da8bcdf51121d96c71673295b825a010', 86.2),
+(64, 1, 1, 47, 'paypal', '2020-01-23', 3, 'da8bcdf51121d96c71673295b825a010', 87),
+(65, 2, 1, 49, 'cheque', '2020-01-23', 10, 'da8bcdf51121d96c71673295b825a010', 51.2),
+(66, 2, 1, 49, 'cheque', '2020-01-23', 2, 'da8bcdf51121d96c71673295b825a010', 42.3);
 
 -- --------------------------------------------------------
 
@@ -212,7 +229,7 @@ CREATE TABLE `products` (
   `image` varchar(30) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `quantity` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `products`
@@ -258,7 +275,7 @@ CREATE TABLE `reviews` (
   `stars` int(1) NOT NULL,
   `title` varchar(50) NOT NULL,
   `description` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `reviews`
@@ -314,6 +331,12 @@ INSERT INTO `reviews` (`id_product`, `name_user`, `photo_user`, `stars`, `title`
 -- Index pour la table `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `adresses`
+--
+ALTER TABLE `adresses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -373,6 +396,12 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `adresses`
+--
+ALTER TABLE `adresses`
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `categories`

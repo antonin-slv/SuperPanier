@@ -24,7 +24,7 @@ class Routeur
         //en fonction des inputs, on charge la page correspondante
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
-            if (!file_exists("vue/$page.html.twig")) {
+            if (!file_exists("vue/$page.html.twig") && !file_exists("controlleur/Ctrl$page.php")) {
                 //on sort la page 404
                 echo $this->twig->render('404.html.twig', array('page' => $page));
             }
