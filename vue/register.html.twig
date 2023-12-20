@@ -20,7 +20,7 @@
 
                         <div class="form-outline">
                             <input type="text" id="prenom" name="prenom" class="form-control form-control-lg"
-                                {{user == "Pseudo" ? "value=" ~ post.prenom : ""}}
+                                {{error != "" ? "value=" ~ post.prenom : ""}}
                                 required/>
                             <label class="form-label" for="prenom">Prénom</label>
                         </div>
@@ -30,7 +30,7 @@
 
                         <div class="form-outline">
                             <input type="text" id="nom" name="nom" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.nom : ""}}
+                            {{error != "" ? "value=" ~ post.nom : ""}}
                             required/>
                             <label class="form-label" for="nom">Nom</label>
                         </div>
@@ -60,25 +60,32 @@
                 <div class="mb-4">
                     <div class="form-outline form-white">
                         <input type="email" id="mail" name="mail" class="form-control form-control-lg"
-                        {{user == "Pseudo" ? "value=" ~ post.mail : ""}}
+                        {{error != "" ? "value=" ~ post.mail : ""}}
                         required/>
                         <label class="form-label" for="mail">Votre Email</label>
                     </div>
                 </div>
+
+
+
+
+                
                 <div class="row">
                     <div class="col-md-6 mb-4 pb-2">
                         <div class="form-outline form-white">
                             <input type="number" id="numero_tel" name="numero_tel" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.numero_tel : ""}}
+                            {{error != "" ? "value=" ~ post.numero_tel : ""}}
                             required/>
                             <label class="form-label" for="numero_tel">Numéro de Téléphone</label>
                         </div>
+                    </div>
+                    <div class="col-md-6 mb-4 pb-2">
                         <div class="form-outline form-white">
                             <input type="text" id="pseudo" name="pseudo" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.pseudo : ""}}
+                            {{error != "" ? "value=" ~ post.pseudo : ""}}
                             required/>
                             <label class="form-label" for="pseudo">
-                                {{user == "Pseudo" ? "<p style=\"color:red;\">Pseudo déjà pris<p>" : "Votre Pseudo"}}
+                                {{error == "Pseudo" ? "<p style=\"color:red;\">Pseudo déjà pris<p>" : "Votre Pseudo"}}
                             </label>
                         </div>
                     </div>
@@ -94,7 +101,7 @@
 
                         <div class="form-outline form-white">
                             <input type="text" id="numero_rue" name="numero_rue" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.numero_rue : ""}}
+                            {{error != "" ? "value=" ~ post.numero_rue : ""}}
                             required/>
                             <label class="form-label" for="numero_rue">Numéro</label>
                         </div>
@@ -104,7 +111,7 @@
 
                         <div class="form-outline form-white">
                             <input type="text" id="rue" name="rue" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.rue : ""}}
+                            {{error != "" ? "value=" ~ post.rue : ""}}
                             required/>
                             <label class="form-label" for="rue">Rue</label>
                         </div>
@@ -115,7 +122,7 @@
                 <div class="mb-4 pb-2">
                     <div class="form-outline form-white">
                         <input type="text" id="ville" name="ville" class="form-control form-control-lg"
-                        {{user == "Pseudo" ? "value=" ~ post.ville : ""}}
+                        {{error != "" ? "value=" ~ post.ville : ""}}
                         required/>
                         <label class="form-label" for="ville">Ville</label>
                     </div>
@@ -126,7 +133,7 @@
 
                         <div class="form-outline form-white">
                             <input type="text" id="code_postal" name="code_postal" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.code_postal : ""}}
+                            {{error != "" ? "value=" ~ post.code_postal : ""}}
                             required/>
                             <label class="form-label" for="code_postal">Code postal</label>
                         </div>
@@ -136,11 +143,19 @@
 
                         <div class="form-outline form-white">
                             <input type="text" id="pays" name="pays" class="form-control form-control-lg"
-                            {{user == "Pseudo" ? "value=" ~ post.pays : ""}}
+                            {{error != "" ? "value=" ~ post.pays : ""}}
                             required/>
                             <label class="form-label" for="pays">Pays</label>
                         </div>
+                    </div>
+                </div>
 
+                <div class="mb-4 pb-2">
+                    <div class="form-outline form-white">
+                        <input type="text" id="info_supp" name="info_supp" class="form-control form-control-lg"
+                        {{error != "" ? "value=" ~ post.info_supp : ""}}
+                        required/>
+                        <label class="form-label" for="info_supp">Informations supplémentaire</label>
                     </div>
                 </div>
                 <button type="Submit" name="action" value="register" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">Register</button>
