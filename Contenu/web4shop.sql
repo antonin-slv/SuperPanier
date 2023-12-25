@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 18 déc. 2023 à 20:37
+-- Généré le : mer. 20 déc. 2023 à 18:46
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(40) NOT NULL
+  `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `adresses` (
   `rue` varchar(50) NOT NULL,
   `ville` varchar(50) NOT NULL,
   `code_postal` varchar(6) NOT NULL,
-  `Pays` varchar(32),
+  `Pays` varchar(32) DEFAULT NULL,
   `id` int(32) NOT NULL,
   `info_supp` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -64,7 +64,7 @@ INSERT INTO `adresses` (`numero`, `rue`, `ville`, `code_postal`, `Pays`, `id`, `
 ('ligne ', 'ligne add2', 'Meximieux', '01800', 'France', 1, NULL),
 ('ladd1', 'ligneadd2', 'Lyon', '69009', 'France', 2, NULL),
 ('15', 'Rue de la paix', 'Saint Etienne', '42000', 'France', 3, NULL),
-('12', 'avenue condorc', 'Saint Priest', '45097', 'France', 4, 'étage 2');
+('12', 'avenue condorc', 'Saint Priest', '45097', 'France', 4, 'étage 2')
 
 -- --------------------------------------------------------
 
@@ -94,10 +94,10 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
-  `forname` varchar(50),
-  `surname` varchar(50) ,
-  `phone` varchar(20),
-  `email` varchar(150) ,
+  `forname` varchar(50) DEFAULT NULL,
+  `surname` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `registered` tinyint(4) DEFAULT NULL,
   `adresse_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -145,7 +145,7 @@ CREATE TABLE `logins` (
   `id` int(11) NOT NULL,
   `customer_id` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(40) NOT NULL
+  `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -154,7 +154,7 @@ CREATE TABLE `logins` (
 
 INSERT INTO `logins` (`id`, `customer_id`, `username`, `password`) VALUES
 (1, '1', 'Hamidou', 'd6ee53abcd3b045befa8af69f445fafc33f1f88b'),
-(2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad');
+(2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad'),
 
 -- --------------------------------------------------------
 
@@ -401,7 +401,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT pour la table `adresses`
 --
 ALTER TABLE `adresses`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -413,7 +413,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `delivery_addresses`
@@ -425,7 +425,7 @@ ALTER TABLE `delivery_addresses`
 -- AUTO_INCREMENT pour la table `logins`
 --
 ALTER TABLE `logins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `orderitems`
