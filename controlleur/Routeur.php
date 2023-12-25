@@ -28,41 +28,38 @@ class Routeur
             if (!file_exists("vue/$page.html.twig") && !file_exists("controlleur/Ctrl$page.php")) {
                 //on sort la page 404
                 echo $this->twig->render('404.html.twig', array('page' => $page));
-            }
-            elseif ($page == 'shop') {
-                if(isset($_GET['product'])){
-                    $ctrlShop = new CtrlShop($this->twig,$_GET['product']);
+            } elseif ($page == 'shop') {  //si on est sur la page shop
+                if (isset($_GET['product'])) {
+                    $ctrlShop = new CtrlShop($this->twig, $_GET['product']);
                     $ctrlShop->afficherShop();
-                }else{
-                    echo $this->twig->render('404.html.twig', array('page' => 'Choisissez un produit'));
+                    if(isset($_POST['action'])){
+                        $ctrlShop->actionshop($_POST['action'],$_POST['id'],$_POST['qte']);
+                    }
+                } else {
+                    echo $this->twig->render('404.html.twig', array('page' => 'shop (sans paramètre produit...)'));
                 }
-            }
-            elseif ($page == 'panier') {
+            } elseif ($page == 'panier') { //si on est sur la page panier
                 $ctrlPanier = new CtrlPanier($this->twig);
                 $ctrlPanier->afficherPanier();
-            }
-            elseif ($page == 'produit') {
-                $ctrlProduit = new CtrlProduit($this->twig,$_GET['product_id']);
+            } elseif ($page == 'produit') { //si on est sur la page produit
+                $ctrlProduit = new CtrlProduit($this->twig, $_GET['product_id']);
                 $ctrlProduit->afficherProduit();
-            }
-            elseif ($page == 'connexion' || $page == 'deconnexion' || $page == 'register') {
+            } elseif ($page == 'connexion' || $page == 'deconnexion' || $page == 'register') { //si on est sur la page connexion
                 $ctrlConnexion = new CtrlConnexion($this->twig);
                 $ctrlConnexion->afficherPage($page);
-            }
-            else {
+            } else { // comportement par défaut (accueil)
                 echo $this->twig->render("accueil.html.twig");
             }
-        }
-        else { // comportement par défaut
+        } else { // comportement par défaut
             echo $this->twig->render("accueil.html.twig");
-        }      
-
+        }
     }
 
-    public function initSession(){
+    public function initSession()
+    {
         session_start();
         //vérifie si la session est déjà initialisée
-        if(!isset($_SESSION['CustomerID'])){
+        if (!isset($_SESSION['CustomerID'])) {
             $_SESSION['CustomerID'] = session_id();
             $_SESSION['Connected'] = false;
             $_SESSION['Panier'] = array();

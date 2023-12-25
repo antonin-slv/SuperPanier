@@ -15,6 +15,17 @@ class CtrlShop
         $this->shop = new Shop($page);
     }
 
+    public function actionshop($action,$id,$qte){
+        switch ($action) {
+            case 'ajouter':
+                $this->shop->ajouterProduit($id,$qte);
+                break;
+            default:
+                break;
+        }
+        $this->shop->MAJshop();
+    }
+
     public function afficherShop()
     {
         echo $this->twig->render("shop.html.twig",[

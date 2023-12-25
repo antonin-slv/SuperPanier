@@ -10,8 +10,10 @@
 				<div class="card-body">
 					<h1 class="card-title">{{ produit.name }}</h1>
 					<p class="card-text">{{ produit.description }}</p>
-					<p class="card-text">Prix: {{ produit.price }}€</p>
-					<p class="card-text">Stock: {{ produit.quantity }}</p>
+					<p class="card-text">Prix:
+						{{ produit.price }}€</p>
+					<p class="card-text">Stock:
+						{{ produit.quantity }}</p>
 				</div>
 			</div>
 		</div>
@@ -21,7 +23,10 @@
 			</div>
 		{% else %}
 			<div class="card-footer">
-				<form action="index.php?action=addToCart" method="post" class="row">
+				<form action="index.php?action=addToCart&page=shop	{% if produit.cat_id == 1 %}&product=boissons
+																	{% elseif produit.cat_id == 2 %}&product=biscuits
+																	{% elseif produit.cat_id == 3 %}&product=fruits_sec
+																	{% endif %}" method="post" class="row">
 					<input type="hidden" name="id" value="{{ produit.id }}">
 					<div class="form-group col-md-8">
 						<label for="quantity">Quantité:</label>
