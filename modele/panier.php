@@ -9,14 +9,8 @@ class panier extends Modele {
     public function __construct($connected,$id) {
         $this->connected = $connected;
 
-        //Récupère un ID ou le créé si il n'existe pas
+        //Récupère un ID de panier ou le créé si il n'existe pas
         $this->setPanierID($id);
-    }
-
-
-    public function getProducts() {
-        $this->loadBDDProducts();
-        return $this->contenu;
     }
 
     public function setPanierID($id) {
@@ -53,10 +47,10 @@ class panier extends Modele {
     }
 
     public function loadBDDProducts() {
-        $sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        //$sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        $sql = "SELECT o.id, o.order_id, o.product_id, o.quantity, p.cat_id, p.name, p.image, p.price FROM orderitems o JOIN products p ON o.product_id = p.id WHERE order_id = ?";
         $this->contenu = $this->executerRequete($sql, array($this->id))->fetchAll();
     }
-
 
     public function createPanier($id) {
         if ($this->connected) {
@@ -99,7 +93,15 @@ class panier extends Modele {
         $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
         $this->executerRequete($sql, array($qte, $id));
     }
+
     public function getPanier() {
+        $this->loadBDDProducts();
         return $this->contenu;
+    }
+
+    public function removeProduct($id) {
+        $sql = "DELETE FROM orderitems WHERE order_id = ? AND product_id = ?";
+        $this->executerRequete($sql, array($this->id, $id));
+        unset($_SESSION['Panier'][$id]);
     }
 }

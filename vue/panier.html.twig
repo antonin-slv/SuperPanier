@@ -15,16 +15,12 @@
                             {{ produit.price }}€</p>
                         <p class="card-text">Quantité:
                             {{ produit.quantity }}</p>
-                        <!--
-                            <p class="card-text">id:
-                                {{ produit.orderitems_id }}</p>
-                        -->
                     </div>
                 </div>
             </div>
             <div class="card-footer text-center">
-                <form action="index.php?page=panier&action=suppToCart" method="post">
-                    <input type="hidden" name="orderitems_id" value="{{ produit.orderitems_id }}">
+                <form action="index.php?page=panier&action=rmFromCart" method="post">
+                    <input type="hidden" name="product_id" value="{{ produit.product_id }}"> <!-- a verifier -->
                     <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
                 </form>
                 <div>
