@@ -75,13 +75,13 @@ class panier extends Modele {
 
     public function addProduct($id, $qte) {
 
-
         // les stocks ont ils étés vérifiés avant ? ... normalement oui
         $sql = "SELECT * FROM orderitems WHERE order_id = ? AND product_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id, $id))->fetch();
         if ($rslt) {//si il y a un résultat, alors le produit est déjà dans le panier
+            var_dump($rslt);
             $sql = "UPDATE orderitems SET quantity = ? WHERE order_id = ? AND product_id = ?";
-            $this->executerRequete($sql, array( $qte, $this->id, $id));
+            $this->executerRequete($sql, array( $qte + $rslt["quantity"], $this->id, $id));
         }
         else {//sinon, on l'ajoute
             $sql = "INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)";
