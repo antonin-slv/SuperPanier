@@ -17,9 +17,15 @@ class CtrlConnexion {
             $action = $_POST['action'];
 
             if ($action == 'connexion') {
-                $this->connexion();
-                header("Location:index.php?page=accueil");
-                //une fois l'utilisateur connecté, on le redirige vers la page d'accueil 
+                if ($this->connexion()) {
+                    //si l'utilisateur est connecté, on le redirige vers la page d'accueil
+                    header("Location:index.php?page=accueil");
+                }
+                else {
+                    //sinon, on l'envois sur la page de connexion avec le message d'erreur
+                    $this->error = "login";
+                    $this->page = 'connexion';
+                }
             }
             elseif ($action == 'register') {
                 $rslt = $this->register();
@@ -44,10 +50,13 @@ class CtrlConnexion {
 
     public function connexion() {
         $this->user = new user();
-        $this->connectUser();
+        if (isset($_POST['pseudo']) && isset($_POST['mdp'])) {
+            return $this->user->connectUser($_POST['pseudo'],$_POST['mdp']);
+        }
+        return false;
     }
     public function register() {
-        if (isset($_POST['mail']) && isset($_POST['mdp']) && isset($_POST['nom']) && isset($_POST['prenom']) )
+        if (isset($_POST['pseudo']) && isset($_POST['mdp']) && isset($_POST['nom']) && isset($_POST['prenom']) )
         {
             $this->user = new user();
             //on créé l'utilisateur dans la bdd
@@ -65,8 +74,7 @@ class CtrlConnexion {
     public function afficherPage() {
 
         if ($this->page == 'register') {
-            //si user==pseudo, alors il n'a pas été créé car le pseudo était déjà pris
-            //donc on affiche la page register avec le message d'erreur
+            //La page affichée est gérée par le controlleur (pour gérer plus facilement les erreurs)
             echo $this->twig->render(
                 'register.html.twig',
                 array(  'error' => $this->error,
@@ -75,6 +83,16 @@ class CtrlConnexion {
             );
         }
         //sinon on affiche la page de connexion
-        else echo $this->twig->render('connexion.html.twig');
+        else {
+            
+            echo $this->twig->render(
+                'connexion.html.twig',
+                array(  'error' => $this->error,
+                        'post' => $_POST
+                    )
+            );
+    
+        }
+
     }
 }
