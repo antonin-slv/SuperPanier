@@ -64,7 +64,7 @@ INSERT INTO `adresses` (`numero`, `rue`, `ville`, `code_postal`, `Pays`, `id`, `
 ('ligne ', 'ligne add2', 'Meximieux', '01800', 'France', 1, NULL),
 ('ladd1', 'ligneadd2', 'Lyon', '69009', 'France', 2, NULL),
 ('15', 'Rue de la paix', 'Saint Etienne', '42000', 'France', 3, NULL),
-('12', 'avenue condorc', 'Saint Priest', '45097', 'France', 4, 'étage 2')
+('12', 'avenue condorc', 'Saint Priest', '45097', 'France', 4, 'étage 2');
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ CREATE TABLE `logins` (
 
 INSERT INTO `logins` (`id`, `customer_id`, `username`, `password`) VALUES
 (1, '1', 'Hamidou', 'd6ee53abcd3b045befa8af69f445fafc33f1f88b'),
-(2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad'),
+(2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad');
 
 -- --------------------------------------------------------
 
