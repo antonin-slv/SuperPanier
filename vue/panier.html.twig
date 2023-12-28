@@ -1,1 +1,66 @@
 {% extends 'defTemplate.html.twig' %}
+{% block body %}
+    
+    {% for produit in cart %}
+        <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 90%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="Contenu/productimages/{{ produit.image }}" class="card-img" alt="{{ produit.name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ produit.name }}</h1>
+                        <p class="card-text">{{ produit.description }}</p>
+                        <p class="card-text">Prix:
+                            {{ produit.price }}€</p>
+                        <p class="card-text">Quantité:
+                            {{ produit.quantity }}</p>
+                        <!--
+                            <p class="card-text">id:
+                                {{ produit.orderitems_id }}</p>
+                        -->
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <form action="index.php?page=panier&action=suppToCart" method="post">
+                    <input type="hidden" name="orderitems_id" value="{{ produit.orderitems_id }}">
+                    <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
+                </form>
+                <div>
+                    <a class="btn btn-success mt-1 ml-auto" href="index.php?page=shop{% if produit.cat_id == 1 %}&product=boissons
+                                                                        {% elseif produit.cat_id == 2 %}&product=biscuits
+                                                                        {% elseif produit.cat_id == 3 %}&product=fruits_sec
+                                                                        {% endif %}">Produits similaires</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <h1>Votre panier</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% set total = 0 %}
+        {% for item in cart %}
+            {% set total = total + (item.quantity * item.price) %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.quantity * item.price }}</td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="3">Total</td>
+                <td>{{ total }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
