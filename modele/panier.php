@@ -81,6 +81,8 @@ class panier extends Modele {
 
     public function addProduct($id, $qte) {
 
+
+        // les stocks ont ils étés vérifiés avant ? ... normalement oui
         $sql = "SELECT * FROM orderitems WHERE order_id = ? AND product_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id, $id))->fetch();
         if ($rslt) {//si il y a un résultat, alors le produit est déjà dans le panier
@@ -94,7 +96,8 @@ class panier extends Modele {
         
         $_SESSION['Panier'][$id] = $qte;
 
-        //!!!!!! il faut supprimer le produit des stocks !!!!!!
+        $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
+        $this->executerRequete($sql, array($qte, $id));
     }
     public function getPanier() {
         return $this->contenu;

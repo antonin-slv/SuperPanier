@@ -62,10 +62,11 @@ class Routeur
             }
             elseif ($page == 'connexion' || $page == 'deconnexion' || $page == 'register') //si on est sur la page connexion
             { 
-                $ctrlConnexion = new CtrlConnexion($this->twig);
-                //la page qui ressort est gérée en interne par le contrôlleur
-                $ctrlConnexion->afficherPage();
-
+                if (!isset($GLOBALS['ctrlCo'])) $GLOBALS['ctrlCo'] = new CtrlConnexion($this->twig);
+                
+                //la page qui ressort est gérée en interne par le contrôleur
+                $GLOBALS['ctrlCo']->afficherPage($page);
+                
             } else { // comportement par défaut (accueil)
                 echo $this->twig->render("accueil.html.twig");
             }
@@ -75,6 +76,29 @@ class Routeur
     }
 
     public function gestionAction() {
+
+        //est donc forcément initialisé ce monsieur :
+        $GLOBALS['ctrlCo'] = new CtrlConnexion($this->twig);
+        if (isset($_POST['action'])) {
+            //connexion ou inscription
+            if ($_POST['action'] == 'connexion') {
+                //les fcts de connexion et d'inscription sont gérées par le contrôleur
+                //elles utilisent directement le POST (pas de paramètres)
+                if ($GLOBALS['ctrlCo']->connexion()) $_GET['page'] = 'accueil';
+                else {
+                    $_GET['page'] = 'connexion';
+                    $GLOBALS['ctrlCo']->error = "login";
+                }
+            }
+            elseif ($_POST['action'] == 'register') {
+                if($GLOBALS['ctrlCo']->register()) $_GET['page'] = 'connexion';
+                else {
+                    $_GET['page'] = 'register';
+                    $GLOBALS['ctrlCo']->error = "register";
+                }
+            }
+        }
+
         if (isset($_GET['action'])) {
             if ($_GET['action'] == 'deconnexion') {
                 session_destroy();
