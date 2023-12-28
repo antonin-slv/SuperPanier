@@ -45,9 +45,6 @@ class Routeur
                 if (isset($_GET['product'])) {
                     $ctrlShop = new CtrlShop($this->twig, $_GET['product']);
                     $ctrlShop->afficherShop();
-                    if (isset($_POST['action'])) {
-                        $ctrlShop->actionshop($_POST['action'], $_POST['id'], $_POST['qte']);
-                    }
                 } else {
                     echo $this->twig->render('404.html.twig', array('page' => 'shop (sans paramètre produit...)'));
                 }

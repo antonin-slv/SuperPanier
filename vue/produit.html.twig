@@ -27,7 +27,7 @@
 																	{% elseif produit.cat_id == 2 %}&product=biscuits
 																	{% elseif produit.cat_id == 3 %}&product=fruits_sec
 																	{% endif %}" method="post" class="row">
-					<input type="hidden" name="id" value="{{ produit.id }}">
+					<input type="hidden" name="product_id" value="{{ produit.id }}">
 					<div class="form-group col-md-8">
 						<label for="quantity">Quantité:</label>
 						<input type="number" class="form-control" name="quantity" value="0" min="0" max="{{ produit.quantity }}">
