@@ -25,7 +25,6 @@ abstract class Modele
         $BDD = $this->getBDD();
         if ($params == null) {
             $resultat = $BDD->query($sql); // exécution directe
-            $resultat = $resultat->fetchAll();
         } else {
 
             $resultat = $BDD->prepare($sql); // requête préparée
@@ -36,7 +35,7 @@ abstract class Modele
     }
     /**
      * Fonction créant une Adresse dans la BDD à partir des données POST
-     * @param il faut que le POST soit remplis
+     * @param none faut que le POST soit remplis
      * @return mixed 
      */
 
@@ -61,41 +60,7 @@ abstract class Modele
             'pays' => 'France'
         ));
     }
-    /**
-     * Fonction créant un User dans la BDD à partir des données POST
-     * @param $adresseId : l'id de l'adresse du user
-     * @return mixed 
-     */
-    protected function createUserFromPOST($adresseId)
-    {
-        $sql = "INSERT INTO customers (forname, surname, email, phone, registered, adresse_id) ";
-        $sql .= "VALUES (:prenom, :nom, :mail, :numeroTel, :registered, :adresseId)";
-        return $this->executerRequete($sql, array(
-            'prenom' => $_POST['prenom'],
-            'nom' => $_POST['nom'],
-            'mail' => $_POST['mail'],
-            'numeroTel' => $_POST['numero_tel'],
-            'registered' => '1',
-            'adresseId' => $adresseId
-        ));
-    }
     
-    protected function createLogin($userId,$pseudo)
-    {
-        //on hash le mdp
-        $mdp = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
-
-        //on insère le mdp hashé dans la bdd
-        $sql="INSERT INTO logins (customer_id, password, username) ";
-        $sql.="VALUES (:id, :mdp, :pseudo)";
-        $this->executerRequete($sql,
-            array(
-                'id' => $userId,
-                'mdp' => $mdp,
-                'pseudo' => $pseudo
-            )
-        );
-    }
 }
 /*
     function add_friend($data)

@@ -7,7 +7,7 @@ class produit extends Modele {
     public function __construct($produit) {
         //en fonction de la page, on va chercher les produits correspondants
         $sql = "SELECT * FROM products WHERE id = $produit;";
-        $this->produit = $this->executerRequete($sql);
+        $this->produit = $this->executerRequete($sql)->fetchAll();
     }
     
     public function getProduit() {

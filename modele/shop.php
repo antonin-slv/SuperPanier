@@ -21,7 +21,8 @@ class shop extends Modele {
                 break;
         }
         $sql = "SELECT * FROM products WHERE cat_id = $this->type;";
-        $this->produits = $this->executerRequete($sql);
+        $rslt = $this->executerRequete($sql);
+        $this->produits = $rslt->fetchAll();
     }
 
     public function ajouterProduit($id,$qte) {
@@ -31,7 +32,8 @@ class shop extends Modele {
 
     public function MAJshop() {
         $sql = "SELECT * FROM products WHERE cat_id = $this->type;";
-        $this->produits = $this->executerRequete($sql);
+        $rslt = $this->executerRequete($sql);
+        $this->produits = $rslt->fetchAll();
     }
     
     public function getProduits() {
