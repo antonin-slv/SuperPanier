@@ -35,7 +35,7 @@ abstract class Modele
     }
     /**
      * Fonction créant une Adresse dans la BDD à partir des données POST
-     * @param il faut que le POST soit remplis
+     * @param none faut que le POST soit remplis
      * @return mixed 
      */
 

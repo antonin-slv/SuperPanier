@@ -10,6 +10,7 @@ class CtrlConnexion {
     private $error="";
 
     public function __construct($twig) {
+
         $this->twig = $twig;
         $this->page= $_GET['page'];
 
@@ -17,7 +18,9 @@ class CtrlConnexion {
             $action = $_POST['action'];
 
             if ($action == 'connexion') {
+                //la fct connexion retourne true si l'utilisateur est connecté, et met à jour $_SESSION 
                 if ($this->connexion()) {
+
                     //si l'utilisateur est connecté, on le redirige vers la page d'accueil
                     header("Location:index.php?page=accueil");
                 }
@@ -47,11 +50,14 @@ class CtrlConnexion {
             }     
         }
     }
-
     public function connexion() {
         $this->user = new user();
         if (isset($_POST['pseudo']) && isset($_POST['mdp'])) {
-            return $this->user->connectUser($_POST['pseudo'],$_POST['mdp']);
+            if ( $this->user->connectUser($_POST['pseudo'],$_POST['mdp'])) {
+                $_SESSION['user_id'] = $this->user->getID();
+                $_SESSION['Connected'] = true;
+                return true;
+            }
         }
         return false;
     }
@@ -66,9 +72,9 @@ class CtrlConnexion {
         return false;
     }
     public function deconnexion() {
-        $this->user = new user();
-        $this->disconnectUser();
-
+        //que faire avec le panier >?
+        unset($_SESSION['user_id']);
+        unset($_SESSION['connected']);
     }
 
     public function afficherPage() {

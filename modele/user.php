@@ -29,7 +29,10 @@ class user extends Modele {
         return false;
     }
 
-
+    public function getID()
+    {
+        return $this->ID;
+    }
     /**
      * Fonction qui créé un utilisateur de A à Z à partir des données POST
      * @return mixed : une chaine donnant l'erreur, true si tout s'est bien passé
