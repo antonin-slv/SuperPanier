@@ -9,7 +9,6 @@ class CtrlPanier
     public function __construct($twig,$connected,$id)
     {
         $this->twig = $twig;
-        /* charger+compiler le template, exécuter, envoyer le résultat au navigateur */
         
         if (isset($_SESSION['Panier'])) $this->panier = new panier($_SESSION['Panier']);
         else $this->panier = false;
@@ -27,8 +26,8 @@ class CtrlPanier
         // on donne les noms corrects à chaque produit
         foreach ($this->panier->getProducts() as $key => $value) {
             //on récupère les infos du produit
-            $product_info[$key] = Array('commande'=> $value) + $this->panier->getProductInfo($key);
+            $product_info[$key] = Array('quantity'=> $value) + $this->panier->getProductInfo($key);
         }
-        echo $this->twig->render("panier.html.twig", array('products' => $product_info));
+        echo $this->twig->render("panier.html.twig", array('products' => $product_info, 'total' => $this->panier->total_price));
     }
 }

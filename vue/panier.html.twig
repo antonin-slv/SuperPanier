@@ -1,7 +1,7 @@
 {% extends 'defTemplate.html.twig' %}
 {% block body %}
     
-    {% for produit in cart %}
+    {% for produit in products %}
         <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 90%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
             <div class="row no-gutters">
                 <div class="col-md-4">
@@ -10,7 +10,6 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h1 class="card-title">{{ produit.name }}</h1>
-                        <p class="card-text">{{ produit.description }}</p>
                         <p class="card-text">Prix:
                             {{ produit.price }}€</p>
                         <p class="card-text">Quantité:
@@ -43,7 +42,6 @@
             </tr>
         </thead>
         <tbody>
-    {% set total = 0 %}
         {% for item in cart %}
             {% set total = total + (item.quantity * item.price) %}
             <tr>
