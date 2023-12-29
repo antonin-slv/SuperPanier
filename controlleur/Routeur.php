@@ -51,7 +51,7 @@ class Routeur
             }
             elseif ($page == 'panier') //si on est sur la page panier
             { 
-                $ctrlPanier = new CtrlPanier($this->twig);
+                $ctrlPanier = new CtrlPanier($this->twig,$_SESSION['Connected'],$_SESSION['user_id']);
                 $ctrlPanier->afficherPanier();
             }
             elseif ($page == 'produit') //si on est sur la page produit

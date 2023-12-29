@@ -1,20 +1,62 @@
 {% extends 'defTemplate.html.twig' %}
 {% block body %}
-    <h1 class="text-center">Votre panier</h1>
-	<div class="row mx-auto" style="width: 90%;">
-		{% for produit in products %}
-			<div    class="card mx-auto my-2 p-2 text-center"
-                    style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
-				<div class="card-body">
-					<h5 class="card-title">{{ produit.name }}</h5>
-						<img src="Contenu/productimages/{{ produit.image }}" class="card-img-top" alt="{{ produit.name }}">
-                        <!-- -->
-                        <p class="card-text">Commandés : {{ produit.commande }}</p>
-					{% if produit.stock == 0 %}
-						<p class="card-text text-danger">/!\ Rupture de stock /!\</p>
-					{% endif %}
-				</div>
-			</div>
-		{% endfor %}
-	</div>
+    
+    {% for produit in cart %}
+        <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 90%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="Contenu/productimages/{{ produit.image }}" class="card-img" alt="{{ produit.name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ produit.name }}</h1>
+                        <p class="card-text">{{ produit.description }}</p>
+                        <p class="card-text">Prix:
+                            {{ produit.price }}€</p>
+                        <p class="card-text">Quantité:
+                            {{ produit.quantity }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <form action="index.php?page=panier&action=rmFromCart" method="post">
+                    <input type="hidden" name="product_id" value="{{ produit.product_id }}"> <!-- a verifier -->
+                    <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
+                </form>
+                <div>
+                    <a class="btn btn-success mt-1 ml-auto" href="index.php?page=shop{% if produit.cat_id == 1 %}&product=boissons
+                                                                        {% elseif produit.cat_id == 2 %}&product=biscuits
+                                                                        {% elseif produit.cat_id == 3 %}&product=fruits_sec
+                                                                        {% endif %}">Produits similaires</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <h1>Votre panier</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% set total = 0 %}
+        {% for item in cart %}
+            {% set total = total + (item.quantity * item.price) %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.quantity * item.price }}</td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="3">Total</td>
+                <td>{{ total }}</td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}

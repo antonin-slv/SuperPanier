@@ -1,13 +1,12 @@
 <?php
-
-require_once 'modele/panier.php';
+require_once ('modele/panier.php');
 
 class CtrlPanier
 {
     private $twig;
     private $panier;
 
-    public function __construct($twig)
+    public function __construct($twig,$connected,$id)
     {
         $this->twig = $twig;
         /* charger+compiler le template, exécuter, envoyer le résultat au navigateur */

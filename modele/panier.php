@@ -8,6 +8,7 @@ class panier extends Modele {
 
     private $total_price = 0;
 
+<<<<<<< HEAD
     public function __construct($connected) {
         if (gettype($connected) == "array") {
 
@@ -31,6 +32,12 @@ class panier extends Modele {
     }
 
     //met l'id du panier dans $this->id et dans $_SESSION['Panier']['id']
+=======
+        //Récupère un ID de panier ou le créé si il n'existe pas
+        $this->setPanierID($id);
+    }
+
+>>>>>>> f6fdc5af4d66c22a9399f875e665c7a8749a23a8
     public function setPanierID($id) {
         
         if ($this->connected) {
@@ -65,7 +72,12 @@ class panier extends Modele {
     }
 
     public function loadBDDProducts() {
+<<<<<<< HEAD
         $sql = "SELECT product_id, quantity FROM orderitems WHERE order_id = ?";
+=======
+        //$sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        $sql = "SELECT o.id, o.order_id, o.product_id, o.quantity, p.cat_id, p.name, p.image, p.price FROM orderitems o JOIN products p ON o.product_id = p.id WHERE order_id = ?";
+>>>>>>> f6fdc5af4d66c22a9399f875e665c7a8749a23a8
         $this->contenu = $this->executerRequete($sql, array($this->id))->fetchAll();
         // on utilise les id des produits comme clé
         $temp = array();
@@ -75,7 +87,6 @@ class panier extends Modele {
         }
         $this->contenu = $temp;
     }
-
 
     public function createPanier($id) {
         if ($this->connected) {
@@ -101,13 +112,13 @@ class panier extends Modele {
 
     public function addProduct($id, $qte) {
 
-
         // les stocks ont ils étés vérifiés avant ? ... normalement oui
         $sql = "SELECT * FROM orderitems WHERE order_id = ? AND product_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id, $id))->fetch();
         if ($rslt) {//si il y a un résultat, alors le produit est déjà dans le panier
+            var_dump($rslt);
             $sql = "UPDATE orderitems SET quantity = ? WHERE order_id = ? AND product_id = ?";
-            $this->executerRequete($sql, array( $qte, $this->id, $id));
+            $this->executerRequete($sql, array( $qte + $rslt["quantity"], $this->id, $id));
         }
         else {//sinon, on l'ajoute
             $sql = "INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)";
@@ -122,6 +133,7 @@ class panier extends Modele {
         $this->updatePrice();//on met le prix total dans la BDD et dans l'objet
     }
 
+<<<<<<< HEAD
     public function updatePrice() {
         //on met à jour le prix total
         $sql = "SELECT SUM(p.price*o.quantity) as total FROM products p JOIN orderitems o ON o.product_id = p.id WHERE o.order_id = ?";
@@ -142,5 +154,16 @@ class panier extends Modele {
         $sql = "SELECT id, name,image,price,quantity as stock FROM products WHERE id = ?";
         $rslt = $this->executerRequete($sql, array($id));
         return $rslt->fetch();
+=======
+    public function getPanier() {
+        $this->loadBDDProducts();
+        return $this->contenu;
+>>>>>>> f6fdc5af4d66c22a9399f875e665c7a8749a23a8
+    }
+
+    public function removeProduct($id) {
+        $sql = "DELETE FROM orderitems WHERE order_id = ? AND product_id = ?";
+        $this->executerRequete($sql, array($this->id, $id));
+        unset($_SESSION['Panier'][$id]);
     }
 }
