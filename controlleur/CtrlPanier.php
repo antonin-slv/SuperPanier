@@ -11,12 +11,25 @@ class CtrlPanier
     {
         $this->twig = $twig;
         /* charger+compiler le template, exécuter, envoyer le résultat au navigateur */
-        $this->panier = new panier();
+        
+        if (isset($_SESSION['Panier'])) $this->panier = new panier($_SESSION['Panier']);
+        else $this->panier = false;
+        //var_dump($this->panier);
     }
 
     public function afficherPanier()
-    {
-        //$panier = $this->panier->getPanier();
-        //echo $this->twig->render("panier.html.twig", $panier->fetchAll());
+    {   //pas de panier
+        if (!$this->panier) {
+            echo $this->twig->render("panier.html.twig", array('products' => array()));
+            return;
+        }
+
+        $product_info = array();
+        // on donne les noms corrects à chaque produit
+        foreach ($this->panier->getProducts() as $key => $value) {
+            //on récupère les infos du produit
+            $product_info[$key] = Array('commande'=> $value) + $this->panier->getProductInfo($key);
+        }
+        echo $this->twig->render("panier.html.twig", array('products' => $product_info));
     }
 }

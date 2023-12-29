@@ -2,23 +2,35 @@
 require_once('modele/modele.php');
 
 class panier extends Modele {
-    private $contenu = array();
-    private $id = null;
+    private $contenu = null;
+    public $id = null;
     private $connected = false;
 
-    public function __construct($connected,$id) {
-        $this->connected = $connected;
+    private $total_price = 0;
 
-        //Récupère un ID ou le créé si il n'existe pas
-        $this->setPanierID($id);
+    public function __construct($connected) {
+        if (gettype($connected) == "array") {
+
+            //dans ce cas c'est le tableau de session
+            if (isset($connected['id'])) $this->id = $connected['id'];
+
+            $this->contenu = $connected;
+            unset($this->contenu['id']);//on ne garde que les produits
+
+            $this->connected = $_SESSION['Connected'];
+        }
+        else $this->connected = $connected;
     }
 
 
     public function getProducts() {
-        $this->loadBDDProducts();
+        if ($this->id == null) return array();
+        elseif (gettype($this->contenu) == "array") return $this->contenu;
+        else $this->loadBDDProducts();
         return $this->contenu;
     }
 
+    //met l'id du panier dans $this->id et dans $_SESSION['Panier']['id']
     public function setPanierID($id) {
         
         if ($this->connected) {
@@ -26,8 +38,6 @@ class panier extends Modele {
         }
         else if ($this->setIDfromSESSION($id)) return;
         $this->createPanier($id);
-        echo "<p style="."color:red;"."> END SET ID</p>";
-        var_dump($this);
     }
 
     public function setIDfromUSER($user_id) {
@@ -36,6 +46,7 @@ class panier extends Modele {
         if ($this->id) {//si il y a un résultat
             if (key_exists('id',$this->id)) $this->id = $this->id['id'];//1 linge, direct ID
             else $this->id = $this->id[0]['id'];//plsrs lignes, la première (+ récente)
+            $_SESSION['Panier']['id'] = $this->id;
             return true;
         }
         return false; //si il n'y a pas de panier en cours pour cet utilisateur
@@ -47,14 +58,22 @@ class panier extends Modele {
         if ($this->id) {//si il y a une résultat
             if (key_exists('id',$this->id)) $this->id = $this->id['id'];// si il y a une seule ligne, on prend l'id directement
             else $this->id = $this->id[0]['id'];// si il y a plusieurs lignes, on prend la première (+ récente)
+            $_SESSION['Panier']['id'] = $this->id;
             return true;
         }
         return false;
     }
 
     public function loadBDDProducts() {
-        $sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        $sql = "SELECT product_id, quantity FROM orderitems WHERE order_id = ?";
         $this->contenu = $this->executerRequete($sql, array($this->id))->fetchAll();
+        // on utilise les id des produits comme clé
+        $temp = array();
+        foreach ($this->contenu as $key => $value) {
+            $temp[$value['product_id']] = $value['quantity'];
+            unset($this->contenu[$key]);
+        }
+        $this->contenu = $temp;
     }
 
 
@@ -77,6 +96,7 @@ class panier extends Modele {
         $sql = "INSERT INTO orders (customer_id, session, date, status, registered,delivery_add_id) VALUES (?, ?, ?, 0, ?,?)";
         $this->executerRequete($sql, array($customer_id, $session, $date, $registered,$id_address));
         $this->id = $this->getBDD()->lastInsertId();
+        $_SESSION['Panier']['id'] = $this->id;
     }
 
     public function addProduct($id, $qte) {
@@ -98,8 +118,29 @@ class panier extends Modele {
 
         $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
         $this->executerRequete($sql, array($qte, $id));
+
+        $this->updatePrice();//on met le prix total dans la BDD et dans l'objet
     }
-    public function getPanier() {
-        return $this->contenu;
+
+    public function updatePrice() {
+        //on met à jour le prix total
+        $sql = "SELECT SUM(p.price*o.quantity) as total FROM products p JOIN orderitems o ON o.product_id = p.id WHERE o.order_id = ?";
+        $rslt = $this->executerRequete($sql, array($this->id))->fetch();
+        $sql = "UPDATE orders SET total = ? WHERE id = ?";
+        $this->executerRequete($sql, array($rslt['total'], $this->id));
+        $this->total_price = $rslt['total'];
+    }
+
+    public function fromGuestToUser($user_id) {
+        //ajout de l'id user et de son adresse dans la BDD
+        $sql = "UPDATE orders SET customer_id = ?, delivery_add_id = ?, registered = 1 WHERE id = ?";
+        $this->executerRequete($sql, array($user_id, $this->getUserAdress($_SESSION['user_id']), $this->id));
+        $this->connected = true;
+    }
+
+    public function getProductInfo($id) {
+        $sql = "SELECT id, name,image,price,quantity as stock FROM products WHERE id = ?";
+        $rslt = $this->executerRequete($sql, array($id));
+        return $rslt->fetch();
     }
 }

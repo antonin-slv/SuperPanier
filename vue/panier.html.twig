@@ -1,1 +1,20 @@
 {% extends 'defTemplate.html.twig' %}
+{% block body %}
+    <h1 class="text-center">Votre panier</h1>
+	<div class="row mx-auto" style="width: 90%;">
+		{% for produit in products %}
+			<div    class="card mx-auto my-2 p-2 text-center"
+                    style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
+				<div class="card-body">
+					<h5 class="card-title">{{ produit.name }}</h5>
+						<img src="Contenu/productimages/{{ produit.image }}" class="card-img-top" alt="{{ produit.name }}">
+                        <!-- -->
+                        <p class="card-text">Commandés : {{ produit.commande }}</p>
+					{% if produit.stock == 0 %}
+						<p class="card-text text-danger">/!\ Rupture de stock /!\</p>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -60,7 +60,12 @@ abstract class Modele
             'pays' => 'France'
         ));
     }
-    
+    protected function getUserAdress($user_id)
+    {
+        $sql = "SELECT adresse_id FROM customers WHERE id = ?";
+        $rslt = $this->executerRequete($sql, array($user_id))->fetch();
+        return $rslt['adresse_id'];
+    }
 }
 /*
     function add_friend($data)

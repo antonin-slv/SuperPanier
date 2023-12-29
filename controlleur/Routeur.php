@@ -84,41 +84,75 @@ class Routeur
             if ($_POST['action'] == 'connexion') {
                 //les fcts de connexion et d'inscription sont gérées par le contrôleur
                 //elles utilisent directement le POST (pas de paramètres)
-                if ($GLOBALS['ctrlCo']->connexion()) $_GET['page'] = 'accueil';
+                if ($GLOBALS['ctrlCo']->connexion())
+                {
+                    $_GET['page'] = 'accueil';
+                    $_POST['action'] = 'syncPanier';
+                }
                 else {
                     $_GET['page'] = 'connexion';
                     $GLOBALS['ctrlCo']->error = "login";
                 }
             }
             elseif ($_POST['action'] == 'register') {
-                if($GLOBALS['ctrlCo']->register()) $_GET['page'] = 'connexion';
+                if($GLOBALS['ctrlCo']->register())
+                {
+                    $_GET['page'] = 'connexion';
+                    $_POST['action'] = 'syncPanier';
+                }
                 else {
                     $_GET['page'] = 'register';
                     $GLOBALS['ctrlCo']->error = "register";
                 }
             }
+
+            if ($_POST['action'] == 'syncPanier') // l'utilsateur vient de se connecter
+            {
+                //Si l'utilisateur s'est connecté sans toucher au panier
+                if (!isset($_SESSION['Panier'])) {
+                    //on dit juste au panier si l'user est connecté
+                    $panier = new Panier($_SESSION['Connected']);
+                    //soit on récupère l'ancien panier de l'utilisateur, soit on lui en crée un nouveau
+                    $panier->setPanierID($_SESSION['user_id']);
+                    //on récupère les produits du panier (ou rien XD)
+                    $_SESSION['Panier'] = $panier->getProducts();
+                }
+                else //si l'utilisateur a touché au panier
+                {
+                    //on récupère le panier en cours
+                    $panier = new Panier($_SESSION['Panier']);
+                    //on l'inscrit dans la BDD
+                    $panier->fromGuestToUser($_SESSION['user_id']);
+                }
+
+            }
         }
 
         if (isset($_GET['action'])) {
             if ($_GET['action'] == 'deconnexion') {
-                session_destroy();
+                $_SESSION = array();
                 header('Location: index.php');
             }
             
             elseif ($_GET['action'] == 'addToCart') {
                 
                 if (isset($_POST['quantity']) && isset($_POST['product_id']))
-                {
-                    
-                    $panier = new Panier($_SESSION['Connected'],$_SESSION['user_id']);
+                {   
+                    $panier = new Panier($_SESSION['Connected']);
+
+                    //au cas où le panier n'existe pas encore
+                    if (isset($_SESSION['Panier']['id'])) $panier->id = $_SESSION['Panier']['id'];
+                    else $panier->setPanierID($_SESSION['user_id']);
                     //on met dans la BDD ce nombre de tel produit
                     $panier->addProduct($_POST['product_id'], $_POST['quantity']);
+
                 }
             }
             elseif ($_GET['action'] == 'rmFromCart') {
                 if (isset($_POST['product_id']))
                 {
-                    $panier = new Panier($_SESSION['Connected'],$_SESSION['user_id']);
+                    $panier = new Panier($_SESSION['Connected']);
+                    $panier->id = $_SESSION['Panier']['id'];
                     $panier->removeProduct($_POST['product_id']);
                 }
             }
@@ -126,17 +160,22 @@ class Routeur
     }
 
     public function initSession()
-    {
+    {   
         session_start();
         //vérifie si la session est déjà initialisée
         if (!isset($_SESSION['user_id'])) {
             $_SESSION['user_id'] = session_id();
             $_SESSION['Connected'] = false;
         }
-
+        /*
         if (!isset($_SESSION['Panier'])) {
-            $panier = new Panier($_SESSION['Connected'],$_SESSION['user_id']);
+            //on dit juste au panier si l'user est connecté
+            $panier = new Panier($_SESSION['Connected']);
+            //soit on récupère l'ancien panier de l'utilisateur, soit on en crée un nouveau
+            $panier->setPanierID($_SESSION['user_id']);
+            //on récupère les produits du panier (ou rien XD)
             $_SESSION['Panier'] = $panier->getProducts();
         }
+        */
     }
 }
