@@ -15,6 +15,7 @@ class CtrlConnexion {
             if ( $this->user->connectUser($_POST['pseudo'],$_POST['mdp'])) {
                 $_SESSION['user_id'] = $this->user->getID();
                 $_SESSION['Connected'] = true;
+                unset($_SESSION['futur_user_id']);
                 return true;
             }
         }
@@ -31,6 +32,12 @@ class CtrlConnexion {
                 $this->error = $rslt;
                 return false;
             }
+            // on indique l'ID à venir dans la session
+            $_SESSION['futur_user_id'] = $this->user->getID();
+            //on déconnecte l'utilisateur postentiellement connecté
+            $_SESSION['user_id'] = session_id();
+            $_SESSION['Connected'] = false;
+            return true;
         }
         $this->error = "register";
         return false;

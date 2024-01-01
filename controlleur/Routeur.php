@@ -101,6 +101,7 @@ class Routeur
                     $_POST['action'] = 'syncPanier';
                 }
                 else {
+
                     $_GET['page'] = 'register';
                     $GLOBALS['ctrlCo']->error = "register";
                 }
@@ -118,11 +119,14 @@ class Routeur
                     $_SESSION['Panier'] = $panier->getProducts();
                 }
                 else //si l'utilisateur a touché au panier
-                {
-                    //on récupère le panier en cours
-                    $panier = new Panier($_SESSION['Panier']);
-                    //on l'inscrit dans la BDD
-                    $panier->fromGuestToUser($_SESSION['user_id']);
+                { 
+                        //on récupère le panier en cours
+                        $panier = new Panier($_SESSION['Panier']);
+
+                        if ($_SESSION['Connected'] ) $panier->fromGuestToUser($_SESSION['user_id']);
+                        else {
+                            $panier->fromUserToGuest($_SESSION['futur_user_id']);
+                        }
                 }
 
             }
