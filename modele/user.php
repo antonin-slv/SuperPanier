@@ -6,7 +6,7 @@ class user extends Modele {
     private $pseudo;
     private $adrID;
     private $registered;
-    private $admin;
+    private $admin = false;
 
     
     
@@ -18,8 +18,13 @@ class user extends Modele {
         $sql="SELECT customer_id, password FROM logins WHERE username =\"". $pseudo ."\"";
         $rslt = $this->executerRequete($sql);
         $rslt = $rslt->fetch();
-        if ($rslt == false) return false;
+        if ($rslt == false) {
+            $sql="SELECT id, password FROM admin WHERE username =\"". $pseudo ."\"";
+            $rslt = $this->executerRequete($sql)->fetch();
 
+            if ($rslt == false) return false;
+            else $this->admin = true;
+        }
         if (password_verify($mdp, $rslt['password'])) {
             $this->ID = $rslt['customer_id'];
             $this->pseudo = $pseudo;

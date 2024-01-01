@@ -19,6 +19,9 @@ class panier extends Modele {
 
             $this->connected = $_SESSION['Connected'];
         }
+        elseif (gettype($connected) == "integer") {
+            $this->id = $connected;
+        }
         else $this->connected = $connected;
     }
 
