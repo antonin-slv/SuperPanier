@@ -1,0 +1,58 @@
+<div class="col-lg-6">
+	<div class="p-5">
+		<h3 class="fw-normal mb-5">Adresse</h3>
+
+		<div class="row">
+			<div class="col-md-5 mb-4 pb-2">
+
+				<div class="form-outline form-white">
+					<input type="text" id="numero_rue" name="numero_rue" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.numero_rue : ""}} required/>
+					<label class="form-label" for="numero_rue">Numéro</label>
+				</div>
+
+			</div>
+			<div class="col-md-7 mb-4 pb-2">
+
+				<div class="form-outline form-white">
+					<input type="text" id="rue" name="rue" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.rue : ""}} required/>
+					<label class="form-label" for="rue">Rue</label>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="mb-4 pb-2">
+			<div class="form-outline form-white">
+				<input type="text" id="ville" name="ville" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.ville : ""}} required/>
+				<label class="form-label" for="ville">Ville</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-5 mb-4 pb-2">
+
+				<div class="form-outline form-white">
+					<input type="text" id="code_postal" name="code_postal" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.code_postal : ""}} required/>
+					<label class="form-label" for="code_postal">Code postal</label>
+				</div>
+
+			</div>
+			<div class="col-md-7 mb-4 pb-2">
+
+				<div class="form-outline form-white">
+					<input type="text" id="pays" name="pays" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.pays : ""}} required/>
+					<label class="form-label" for="pays">Pays</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="mb-4 pb-2">
+			<div class="form-outline form-white">
+				<input type="text" id="info_supp" name="info_supp" class="form-control form-control-lg" {{error != "" ? "value=" ~ post.info_supp : ""}} required/>
+				<label class="form-label" for="info_supp">Informations supplémentaire</label>
+			</div>
+		</div>
+		<button type="Submit" name="action" value="register" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">Register</button>
+		<a href="index.php?page=connexion" class="btn btn-outline-dark btn-lg" data-mdb-ripple-color="dark">Retour à la Connexion</a>
+	</div>
+</div>

@@ -19,7 +19,7 @@
             </div>
             <div class="card-footer text-center">
                 <form action="index.php?page=panier&action=rmFromCart" method="post">
-                    <input type="hidden" name="product_id" value="{{ produit.product_id }}"> <!-- a verifier -->
+                    <input type="hidden" name="product_id" value={{ produit.id }}> <!-- a verifier -->
                     <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
                 </form>
                 <div>

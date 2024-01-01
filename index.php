@@ -9,5 +9,6 @@ $routeur->routerRequete(); //c'est le routeur qui met en relation les controlleu
 
 echo "<p>POST : ";
 var_dump($_POST);
-echo "</p><p>SESSION : ";
+echo "SESSION : ";
 var_dump($_SESSION);
+echo "</p>";

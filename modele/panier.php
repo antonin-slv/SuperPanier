@@ -103,7 +103,7 @@ class panier extends Modele {
         $sql = "SELECT * FROM orderitems WHERE order_id = ? AND product_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id, $id))->fetch();
         if ($rslt) {//si il y a un résultat, alors le produit est déjà dans le panier
-            var_dump($rslt);
+            //on remplace l'ancienne qtt par la nouvelle
             $sql = "UPDATE orderitems SET quantity = ? WHERE order_id = ? AND product_id = ?";
             $this->executerRequete($sql, array( $qte + $rslt["quantity"], $this->id, $id));
         }
@@ -120,13 +120,18 @@ class panier extends Modele {
         $this->updatePrice();//on met le prix total dans la BDD et dans l'objet
     }
 
-    public function updatePrice() {
-        //on met à jour le prix total
-        $sql = "SELECT SUM(p.price*o.quantity) as total FROM products p JOIN orderitems o ON o.product_id = p.id WHERE o.order_id = ?";
-        $rslt = $this->executerRequete($sql, array($this->id))->fetch();
+    public function updatePrice($total_price = null) {
+
+
+        if ($total_price == null) {
+            //calcul le prix total si il n'est pas donné en paramètre
+            $sql = "SELECT SUM(p.price*o.quantity) as total FROM products p JOIN orderitems o ON o.product_id = p.id WHERE o.order_id = ?";
+            $total_price = $this->executerRequete($sql, array($this->id))->fetch()['total'];
+        }
+        //on met à jour le prix total dans la BDD
         $sql = "UPDATE orders SET total = ? WHERE id = ?";
-        $this->executerRequete($sql, array($rslt['total'], $this->id));
-        $this->total_price = $rslt['total'];
+        $this->executerRequete($sql, array($total_price, $this->id));
+        $this->total_price = $total_price;
     }
 
     public function fromGuestToUser($user_id) {
@@ -145,6 +150,12 @@ class panier extends Modele {
     public function removeProduct($id) {
         $sql = "DELETE FROM orderitems WHERE order_id = ? AND product_id = ?";
         $this->executerRequete($sql, array($this->id, $id));
+
+        $sql = "UPDATE products SET quantity = quantity + ? WHERE id = ?";
+        $this->executerRequete($sql, array($_SESSION['Panier'][$id], $id));
+
         unset($_SESSION['Panier'][$id]);
+
+        $this->updatePrice();
     }
 }
