@@ -130,7 +130,7 @@ class Routeur
                 if (isset($_SESSION['admin'])) 
                 {
                     if ($_SESSION['admin'] == true) {
-                        $commande = new commande($_GET['commande']);
+                        $commande = new commande(intval($_GET['commande']));
                         $commande->validate();
                     }
                 }

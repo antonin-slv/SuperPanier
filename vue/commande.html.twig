@@ -61,7 +61,7 @@
 
         <div class="p-3 pb-4">
             
-            {% if info.status != 2 %}
+            {% if info.status == 2 %}
                 <form action="index.php?page=admin&commande={{ info.id }}" method="post">
                     <input type="hidden" name="action" value="ValiderCommande">
                     <input type="submit" class="btn btn-success mt-1 ml-auto" value="Payement reçu et envois en cours">

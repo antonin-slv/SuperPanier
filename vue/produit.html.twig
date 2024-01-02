@@ -16,11 +16,13 @@
 						{{ produit.quantity }}</p>
 				</div>
 			</div>
+			<!-- COMMENTAIRES ??-->
 		</div>
 		{% if produit.quantity == 0 %}
 			<div class="card-footer text-center">
 				<h4 class="card-text text-danger text-uppercase">Victime de son succès !</h4>
 			</div>
+		{% elseif admin %}
 		{% else %}
 			<div class="card-footer">
 				<form action="index.php?action=addToCart&page=shop	{% if produit.cat_id == 1 %}&product=boissons
