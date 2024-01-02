@@ -4,6 +4,7 @@ include_once('CtrlPanier.php');
 include_once('CtrlShop.php');
 include_once('CtrlConnexion.php');
 include_once('CtrlProduit.php');
+include_once('CtrlAdmin.php');
 class Routeur
 {
     private $twig;
@@ -67,7 +68,16 @@ class Routeur
                 //la page qui ressort est gérée en interne par le contrôleur
                 $GLOBALS['ctrlCo']->afficherPage($page);
                 
-            } else { // comportement par défaut (accueil)
+            }
+            elseif ($page == 'admin') //si on est sur la page admin
+            { 
+                $ctrlAdmin = new CtrlAdmin($this->twig);
+                if(isset($_GET['commande'])) //si on veut afficher une commande en particulier
+                    $ctrlAdmin->afficherCommande($_GET['commande']);
+                else //si on veut afficher la liste des commandes (par défaut
+                    $ctrlAdmin->afficherListeCommandes();
+            }
+            else { // comportement par défaut (accueil)
                 echo $this->twig->render("accueil.html.twig");
             }
         } else { // comportement par défaut

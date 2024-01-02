@@ -66,6 +66,16 @@ abstract class Modele
         $rslt = $this->executerRequete($sql, array($user_id))->fetch();
         return $rslt['adresse_id'];
     }
+
+    public function valueToKey($tab,$column = "id")
+    {
+        $result = array();
+        foreach ($tab as $value) {
+            $result[$value[$column]] = $value;
+        }
+        return $result;
+
+    }
 }
 /*
     function add_friend($data)

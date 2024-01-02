@@ -1,1 +1,17 @@
 {% extends 'defTemplate.html.twig' %}
+
+{% block body %}
+
+	<div class="row mx-auto" style="width: 90%;">
+		{% for commande in commandes %}
+			<div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
+				<div class="card-body">
+					<h5 class="card-title">{{ commande.user['forename'] ~ commande.user['surname'] }}</h5>
+					<a href="index.php?page=admin&commande={{commande.id}}">
+						éditer la commande
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
