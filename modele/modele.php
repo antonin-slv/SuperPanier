@@ -13,6 +13,7 @@ abstract class Modele
             $dsn = "mysql:dbname=" . BASE . ";host=" . SERVER;
             try {
                 $this->connexion = new PDO($dsn, USER, PASSWD);
+                $this->connexion->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 printf("Échec de la connexion : %s\n", $e->getMessage());
                 $this->connexion = NULL;

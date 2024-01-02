@@ -1,15 +1,32 @@
 {% extends 'defTemplate.html.twig' %}
 {% block body %}
     
+    {% if admin %}
+        <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center">
+        <div class="text-center" style="fit-content(100px)">
+        <div class=" card-registration card-registration-2"
+                style="border-radius: 15px; border-radius: 15px;background: rgba(255,255,255,0.5)">
+        <br/>
+        <h1>Commande n° {{ info.id }}</h1>
+        {% if info.user['forname'] %}
+
+        <h4>De {{info.user['forname'] ~" "~ info.user['surname']}}, Client n° {{info.user['id']}}</h4>
+        <p> Faite le {{ info.date }}</p> 
+        {% else %}
+        <h4>Utilisateur anonyme</h4>
+        {% endif %} 
+    {% endif %}
+
     {% for produit in products %}
-        <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 90%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+        <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 50%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="Contenu/productimages/{{ produit.image }}" class="card-img" alt="{{ produit.name }}">
+                    <img src="Contenu/productimages/{{ produit.image }}" class="card-img"  style="height: 200px;width: 200px" alt="{{ produit.name }}">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h1 class="card-title">{{ produit.name }}</h1>
+                        <h4 class="card-title">{{ produit.name }}</h4>
                         <p class="card-text">Prix:
                             {{ produit.price }}€</p>
                         <p class="card-text">Quantité:
@@ -17,6 +34,8 @@
                     </div>
                 </div>
             </div>
+            {% if admin %}
+            {% else %}
             <div class="card-footer text-center">
                 <form action="index.php?page=panier&action=rmFromCart" method="post">
                     <input type="hidden" name="product_id" value={{ produit.id }}> <!-- a verifier -->
@@ -29,32 +48,63 @@
                                                                         {% endif %}">Produits similaires</a>
                 </div>
             </div>
+            {% endif %}
         </div>
     {% endfor %}
-    <h1>Votre panier</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Produit</th>
-                <th>Prix</th>
-                <th>Quantité</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
-            {% set total = total + (item.quantity * item.price) %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.quantity * item.price }}</td>
-            </tr>
-        {% endfor %}
-            <tr>
-                <td colspan="3">Total</td>
-                <td>{{ total }}</td>
-            </tr>
-        </tbody>
-    </table>
+
+
+    {% if admin %}
+        <h3> Adresse de livraison: </h3>
+        
+        {% if info.adresse %}
+            <p>{{ info.adresse['numero']}} {{ info.adresse['rue']}}</p>
+            <p>{{ info.adresse['ville']}} {{ info.adresse['code_postal']}} {{ info.adresse['Pays']}}</p>
+            <p>{{ info.adresse['complement']}}</p>
+        {% else %}
+        <p>Adresse non renseignée</p>
+        {% endif %}
+
+
+        {% if info.status == 2 %}
+            <form action="index.php?page=admin&commande={{ info.id }}" method="post">
+                <input type="hidden" name="action" value="Valider">
+                <input type="submit" class="btn btn-success mt-1 ml-auto" value="Payement reçu et envois en cours">
+            </form>
+        {% elseif info.status < 2 %}
+            <b>Commande en cours</b>
+        {% else %}
+            <b>Commande validée</b>
+        {% endif %}
+        <br/>
+        </div></div></div></div>
+    {% else %}
+        <h1>Votre panier</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                {% set total2 = 0 %}
+                {% set total2 = total2 + (item.quantity * item.price) %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.quantity * item.price }}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td>{{ total }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

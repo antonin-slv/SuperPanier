@@ -181,6 +181,13 @@ class Routeur
             $_SESSION['user_id'] = session_id();
             $_SESSION['Connected'] = false;
         }
+        $this->twig->addGlobal('user', Array('connected' => $_SESSION['Connected'], 'id' => $_SESSION['user_id']));
+        if (isset($_SESSION['admin'])){
+            if ($_SESSION['admin'] == true) $twig->addGlobal('admin', true);
+        }
+        
+        
+
         /*
         if (!isset($_SESSION['Panier'])) {
             //on dit juste au panier si l'user est connecté

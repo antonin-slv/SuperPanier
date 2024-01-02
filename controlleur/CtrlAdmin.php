@@ -17,8 +17,12 @@ class ctrlAdmin {
     public function afficherListeCommandes($status = -1) {
         /*
         //revérifier que l'utilisateur est bien admin
-        if (!isset($_SESSION['admin'])) return;
-        if($_SESSION['admin'] !== true) return;
+        if (!isset($_SESSION['admin'])) $oups = true;
+        else if($_SESSION['admin'] !== true) $oups = true;
+        if (isset($oups)) {
+            echo $this->twig->render('404.html.twig', array('page' => 'DU BIST NICHT EINE ADMINISTRATOR'));
+            return;
+        }
         */
         $commande = new commande(null);
         //on récupère les commandes en fonction du status que l'on cherche
@@ -45,14 +49,21 @@ class ctrlAdmin {
     }
 
     public function afficherCommande($id) {
-        $commande = new Panier($id);
-        $product_info = array();
+
+        $commande = new commande(intval($id));
+        $info = $commande->getCommandInfo($id);//faire en 1ere requete (charge produits)
+
         // on donne les noms corrects à chaque produit
         foreach ($commande->getProducts() as $key => $value) {
             //on récupère les infos du produit
-            $product_info[$key] = Array('quantity'=> $value) + $this->panier->getProductInfo($key);
+            $product_info[$key] = Array('quantity'=> $value) + $commande->getProductInfo($key);
         }
+        //on récupère les infos de la commande
+
+        $info['adresse'] = $commande->getAdress($id);
+        $info['id'] = $id;
         //ce serra un truc qui ressemblera bcp au panier...
-        echo $this->twig->render('commande.html.twig', array('products' => $product_info, 'total' => $commande->total_price));
+        //echo $this->twig->render('panier.html.twig', array('products' => $product_info, 'total' => $commande->total_price));
+        echo $this->twig->render('panier.html.twig', array('products' => $product_info, 'info' => $info,'admin' => true));
     }   
 }

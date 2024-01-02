@@ -1,12 +1,34 @@
 {% extends 'defTemplate.html.twig' %}
 
 {% block body %}
-
+    <h1>Administration des commandes</h1>
 	<div class="row mx-auto" style="width: 90%;">
 		{% for commande in commandes %}
 			<div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
 				<div class="card-body">
-					<h5 class="card-title">{{ commande.user['forename'] ~ commande.user['surname'] }}</h5>
+                    {% if commande.user %}
+					<h5 class="card-title">{{ commande.user['forname'] ~" "~ commande.user['surname'] }}</h5>
+                    {% else %}
+                    <h5 class="card-title">Utilisateur inconnu</h5>
+                    {% endif %}
+                    <p class="card-text">n°{{ commande.id}} (
+                        {% if commande.status == 0 %}
+                            En cours
+                        {% elseif commande.status == 1 %}
+                            Adresse enregistrée
+                        {% elseif commande.status == 2 %}
+                            Payée
+                        {% elseif commande.status == 10 %}
+                            envoyée
+                        {% else %}
+                            inconnu
+                        {% endif %}
+                        )
+                    </p>
+                    <p class="card-text">Comandé le {{ commande.date }}</p>
+                    <p class="card-text">Nombre d'articles : {{ commande.nb_produits }}</p>
+                    <p class="card-text">Prix total : {{ commande.total }} €</p>
+
 					<a href="index.php?page=admin&commande={{commande.id}}">
 						éditer la commande
 					</a>

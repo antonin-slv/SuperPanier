@@ -19,24 +19,29 @@
             <a class="dropdown-item" href="index.php?page=shop&product=biscuits">Biscuits</a>
         </li>
 
-        <li class="nav-item me-5">
-            <a class="nav-link" href="#">à Propos</a>
+        {% if admin %}
+        <li class="nav-item">
+            <a class="nav-link" href="index.php?page=admin">Gestion Commandes</a>
         </li>
+        {% endif %}
         <!--   - - - - - POUR UNE BARRE DE RECHERCHE - - - - - - - - - 
         <input class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-      
         -->
         <li class="nav-item me-1">
             <a class="nav-link" href="index.php?page=panier">
                 Panier <img src="Contenu\images\panier.png" alt="panier" width="25" height="25">
             </a>
         </li> 
+
         <li class="nav-item">
+        {% if user.connected %}
+            <a class="nav-link" href="index.php?action=deconnexion">Deconnexion<i class="fas fa-sign-in-alt"></i></a>
+
+        {% else %}
             <a class="nav-link" href="index.php?page=connexion">Connexion <i class="fas fa-sign-in-alt"></i></a>
-            <a class="nav-link" href="index.php?action=deconnexion">Deco<i class="fas fa-sign-in-alt"></i></a>
+        {% endif %} 
         </li>
-        
         </ul>
     </div>
     </nav>

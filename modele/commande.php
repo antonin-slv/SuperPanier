@@ -2,7 +2,6 @@
 require_once 'panier.php';
 
 class commande extends panier {
-
     public function __construct($id) {
         parent::__construct($id);
     }
@@ -34,29 +33,44 @@ class commande extends panier {
     }
 
 
+
+    public function getUserInfo($id) {
+        $sql = "SELECT customer_id FROM orders WHERE id = ?";
+        $userID = $this->executerRequete($sql, array($id))->fetch()['customer_id'];
+        //on récupère les infos du client
+        $sql = "SELECT * FROM customers WHERE id = ?";
+        $user = $this->executerRequete($sql, array($userID))->fetch();
+        return $user;
+    }
+    public function getAdress($id = null) {
+        if ($id == null) $id = $this->id;
+        $sql = "SELECT delivery_add_id as id FROM orders WHERE id = ?";
+        $commande = $this->executerRequete($sql, array($id))->fetch();
+        //on récupère les infos de l'adresse
+        $sql = "SELECT adresse_id FROM delivery_addresses WHERE id = ?";
+        $adresse = $this->executerRequete($sql, array($commande['id']))->fetch();
+        if ($adresse == null) return null;
+        $sql = "SELECT * FROM adresses WHERE id = ?";
+        $adresse = $this->executerRequete($sql, array($adresse['adresse_id']))->fetch(); 
+
+        return $adresse;
+    }
     public function getCommandInfo($id) {
         $sql = "SELECT * FROM orders WHERE id = ?";
         $commande = $this->executerRequete($sql, array($id))->fetch();
-        //on récupère les infos du client
-        $sql = "SELECT * FROM customers WHERE id = ?";
-        $user = $this->executerRequete($sql, array($commande['customer_id']))->fetch();
-        if ($user) {
-            $commande['user'] = $user;
-        }
-        else {
-            $commande['user']['forename'] = "Utilisateur";
-            $commande['user']['surname'] = "Anonyme";
-        }
+        
+        $commande['user'] = $this->getUserInfo($id);
 
         $commande['nb_produits'] = 0;
+
         //on récupère les infos des produits
-        $sql = "SELECT product_id,quantity FROM orderitems WHERE order_id = ?";
-        $products = $this->executerRequete($sql, array($id))->fetchAll();
+        $this->id = $id;
+        $products = $this->loadBDDProducts();//force actualisation par la BDD
         //on passe les id en clefs
         foreach ($products as $value) {
-            $commande['produits'][$value['product_id']] = $value['quantity'];
-            $commande['nb_produits'] += $value['quantity'];
+            $commande['nb_produits'] += $value;
         }
+
         return $commande;
     }
 }

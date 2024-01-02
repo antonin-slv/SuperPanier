@@ -66,9 +66,10 @@ class panier extends Modele {
         return false;
     }
 
-    public function loadBDDProducts() {
+    public function loadBDDProducts($id  = null) {
+        if ($id == null) $id = $this->id;
         $sql = "SELECT product_id, quantity FROM orderitems WHERE order_id = ?";
-        $this->contenu = $this->executerRequete($sql, array($this->id))->fetchAll();
+        $this->contenu = $this->executerRequete($sql, array($id))->fetchAll();
         // on utilise les id des produits comme clé
         $temp = array();
         foreach ($this->contenu as $key => $value) {
@@ -76,6 +77,7 @@ class panier extends Modele {
             unset($this->contenu[$key]);
         }
         $this->contenu = $temp;
+        return $this->contenu;
     }
 
     public function createPanier($id) {
