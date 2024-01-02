@@ -73,4 +73,9 @@ class commande extends panier {
 
         return $commande;
     }
+
+    public function validate() {
+        $sql = "UPDATE orders SET status = 10 WHERE id = ?";
+        $this->executerRequete($sql, array($this->id));
+    }
 }

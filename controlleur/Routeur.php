@@ -98,6 +98,15 @@ class Routeur
                 {
                     $_GET['page'] = 'accueil';
                     $_POST['action'] = 'syncPanier';
+                    if (isset($_SESSION['admin'])) {
+                        if ($_SESSION['admin'] == true)
+                        {
+                            $_GET['page'] = 'admin';
+                            $_POST['action'] = null;
+                        }
+
+                    }
+                    
                 }
                 else {
                     $_GET['page'] = 'connexion';
@@ -109,15 +118,25 @@ class Routeur
                 {
                     $_GET['page'] = 'connexion';
                     $_POST['action'] = 'syncPanier';
+                    //on passe page a false pour afficher la page de connexion
+                    $GLOBALS['ctrlCo']->page = false;
                 }
                 else {
-
                     $_GET['page'] = 'register';
                     $GLOBALS['ctrlCo']->error = "register";
                 }
             }
+            elseif ($_POST['action'] == "ValiderCommande") {
+                if (isset($_SESSION['admin'])) 
+                {
+                    if ($_SESSION['admin'] == true) {
+                        $commande = new commande($_GET['commande']);
+                        $commande->validate();
+                    }
+                }
+            }
 
-            if ($_POST['action'] == 'syncPanier') // l'utilsateur vient de se connecter
+            if ($_POST['action'] == 'syncPanier') // l'utilsateur vient de se connecter eque ce n'est pas un admin
             {
                 //Si l'utilisateur s'est connecté sans toucher au panier
                 if (!isset($_SESSION['Panier'])) {
@@ -126,7 +145,7 @@ class Routeur
                     //soit on récupère l'ancien panier de l'utilisateur, soit on lui en crée un nouveau
                     $panier->setPanierID($_SESSION['user_id']);
                     //on récupère les produits du panier (ou rien XD)
-                    $_SESSION['Panier'] = $panier->getProducts();
+                    $_SESSION['Panier'] = $panier->loadBDDProducts();
                 }
                 else //si l'utilisateur a touché au panier
                 { 
@@ -135,7 +154,7 @@ class Routeur
 
                         if ($_SESSION['Connected'] ) $panier->fromGuestToUser($_SESSION['user_id']);
                         else {
-                            $panier->fromUserToGuest($_SESSION['futur_user_id']);
+                            $panier->fromGuestToUser($_SESSION['futur_user_id']);
                         }
                 }
 
@@ -171,6 +190,14 @@ class Routeur
                 }
             }
         }
+
+
+        // On met en places les variables globales pour TWIG
+        $this->twig->addGlobal('user', Array('connected' => $_SESSION['Connected'], 'id' => $_SESSION['user_id']));
+        if (isset($_SESSION['admin'])){
+            if ($_SESSION['admin'] == true) $this->twig->addGlobal('admin', true);
+        }
+
     }
 
     public function initSession()
@@ -181,22 +208,7 @@ class Routeur
             $_SESSION['user_id'] = session_id();
             $_SESSION['Connected'] = false;
         }
-        $this->twig->addGlobal('user', Array('connected' => $_SESSION['Connected'], 'id' => $_SESSION['user_id']));
-        if (isset($_SESSION['admin'])){
-            if ($_SESSION['admin'] == true) $twig->addGlobal('admin', true);
-        }
         
         
-
-        /*
-        if (!isset($_SESSION['Panier'])) {
-            //on dit juste au panier si l'user est connecté
-            $panier = new Panier($_SESSION['Connected']);
-            //soit on récupère l'ancien panier de l'utilisateur, soit on en crée un nouveau
-            $panier->setPanierID($_SESSION['user_id']);
-            //on récupère les produits du panier (ou rien XD)
-            $_SESSION['Panier'] = $panier->getProducts();
-        }
-        */
     }
 }

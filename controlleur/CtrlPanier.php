@@ -16,7 +16,8 @@ class CtrlPanier
     }
 
     public function afficherPanier()
-    {   //pas de panier
+    {   
+        //pas de panier
         if (!$this->panier) {
             echo $this->twig->render("panier.html.twig", array('products' => array()));
             return;
@@ -24,7 +25,7 @@ class CtrlPanier
 
         $product_info = array();
         // on donne les noms corrects à chaque produit
-        foreach ($this->panier->getProducts() as $key => $value) {
+        foreach ($this->panier->loadBDDProducts() as $key => $value) {
             //on récupère les infos du produit
             $product_info[$key] = Array('quantity'=> $value) + $this->panier->getProductInfo($key);
         }

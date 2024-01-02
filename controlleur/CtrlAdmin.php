@@ -64,6 +64,6 @@ class ctrlAdmin {
         $info['id'] = $id;
         //ce serra un truc qui ressemblera bcp au panier...
         //echo $this->twig->render('panier.html.twig', array('products' => $product_info, 'total' => $commande->total_price));
-        echo $this->twig->render('panier.html.twig', array('products' => $product_info, 'info' => $info,'admin' => true));
+        echo $this->twig->render('commande.html.twig', array('products' => $product_info, 'info' => $info,'admin' => true));
     }   
 }

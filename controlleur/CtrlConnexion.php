@@ -4,6 +4,9 @@ require_once 'modele/user.php';
 class CtrlConnexion {
     private $twig;
     private $user;
+
+    //page c'est juste un truc qu'on passe a false pour afficher la page de connexion
+    public $page = true;
     public $error="";
 
     public function __construct($twig) {
@@ -43,6 +46,7 @@ class CtrlConnexion {
             unset($_SESSION['admin']);
             return true;
         }
+        $this->page="register";
         $this->error = "register";
         return false;
 
@@ -50,7 +54,7 @@ class CtrlConnexion {
 
     public function afficherPage($page)
     {
-        if ($page == 'register') {
+        if ($page == 'register' && $this->page == true) {
             //La page affichée est gérée par le controlleur (pour gérer plus facilement les erreurs)
             echo $this->twig->render(
                 'register.html.twig',

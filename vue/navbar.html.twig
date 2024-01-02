@@ -23,7 +23,7 @@
         <li class="nav-item">
             <a class="nav-link" href="index.php?page=admin">Gestion Commandes</a>
         </li>
-        {% endif %}
+        {% else %}
         <!--   - - - - - POUR UNE BARRE DE RECHERCHE - - - - - - - - - 
         <input class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
@@ -33,6 +33,7 @@
                 Panier <img src="Contenu\images\panier.png" alt="panier" width="25" height="25">
             </a>
         </li> 
+        {% endif %}
 
         <li class="nav-item">
         {% if user.connected %}

@@ -67,6 +67,7 @@ class panier extends Modele {
     }
 
     public function loadBDDProducts($id  = null) {
+        $this->contenu = null;
         if ($id == null) $id = $this->id;
         $sql = "SELECT product_id, quantity FROM orderitems WHERE order_id = ?";
         $this->contenu = $this->executerRequete($sql, array($id))->fetchAll();

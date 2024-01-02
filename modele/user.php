@@ -12,7 +12,10 @@ class user extends Modele {
     
     public function __construct() {
     }
-
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
     public function connectUser($pseudo,$mdp)
     {
         $sql="SELECT customer_id, password FROM logins WHERE username =\"". $pseudo ."\"";
@@ -26,7 +29,8 @@ class user extends Modele {
             else $this->admin = true;
         }
         if (password_verify($mdp, $rslt['password'])) {
-            $this->ID = $rslt['customer_id'];
+            if (isset($rslt['customer_id'])) $this->ID = $rslt['customer_id'];
+            else $this->ID = $rslt['id'];
             $this->pseudo = $pseudo;
             $this->connected = true;
             return true;

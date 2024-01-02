@@ -1,0 +1,77 @@
+{% extends 'defTemplate.html.twig' %}
+{% block body %}
+    
+    
+    
+    <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center">
+    <div class="text-center">
+    <div class=""
+            style="border-radius: 15px; border-radius: 15px;background: rgba(255,255,255,0.5)">
+        <br/>
+        <h1>Commande n° {{ info.id }}</h1>
+        {% if info.user['forname'] %}
+
+        <h4>De {{info.user['forname'] ~" "~ info.user['surname']}}, Client n° {{info.user['id']}}</h4>
+        <p> Total de <b>{{info.total}}€</b>, faite le {{ info.date }}</p> 
+        {% else %}
+        <h4>Utilisateur anonyme</h4>
+        {% endif %} 
+    
+        <ul class="">
+        {% for produit in products %}
+            <li class="card bg-primary mb-3 mx-auto mt-3 d-inline-flex" style="background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="Contenu/productimages/{{ produit.image }}" class="card-img"  style="height: 140px;width: 150px" alt="{{ produit.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ produit.quantity }} {{ produit.name }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+
+        <div class="row">
+            <div class="col col-lg-3"></div>
+            <div class="col col-lg-3">
+            <h3> Adresse de livraison </h3>
+                {% if info.adresse %}
+                    <p>{{ info.adresse['numero']}} {{ info.adresse['rue']}}</p>
+                    <p>{{ info.adresse['ville']}} {{ info.adresse['code_postal']}} {{ info.adresse['Pays']}}</p>
+                    <p>{{ info.adresse['info_supp']}}</p>
+                {% else %}
+                <p>Adresse non renseignée</p>
+                {% endif %}
+            </div>
+            <div class="col col-lg-3">
+                <h3> Contact Client </h3>
+                {% if info.user %}
+                    <p>{{ info.user['email']}}</p>
+                    <p>tel. {{ info.user['phone']}}</p>
+                {% else %}
+                <p>Utilisateur anonyme</p>
+                {% endif %}
+            </div>
+            <div class="col col-lg-3 "></div>
+        </div>
+
+        <div class="p-3 pb-4">
+            
+            {% if info.status != 2 %}
+                <form action="index.php?page=admin&commande={{ info.id }}" method="post">
+                    <input type="hidden" name="action" value="ValiderCommande">
+                    <input type="submit" class="btn btn-success mt-1 ml-auto" value="Payement reçu et envois en cours">
+                </form>
+            {% elseif info.status < 2 %}
+                <b>Commande en cours</b>
+            {% else %}
+                <b>Commande validée</b>
+            {% endif %}
+        </div>
+    </div></div></div></div>
+
+{% endblock %}
