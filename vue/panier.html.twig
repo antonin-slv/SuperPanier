@@ -45,19 +45,17 @@
                 </tr>
             </thead>
             <tbody>
-            {% for item in cart %}
-                {% set total2 = 0 %}
-                {% set total2 = total2 + (item.quantity * item.price) %}
+            {% for item in products %}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>{{ item.price }} €</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ item.quantity * item.price }}</td>
+                    <td>{{ item.quantity * item.price }} €</td>
                 </tr>
             {% endfor %}
                 <tr>
                     <td colspan="3">Total</td>
-                    <td>{{ total }}</td>
+                    <td>{{ total }} €</td>
                 </tr>
             </tbody>
         </table>

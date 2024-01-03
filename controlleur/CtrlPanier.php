@@ -29,6 +29,7 @@ class CtrlPanier
             //on récupère les infos du produit
             $product_info[$key] = Array('quantity'=> $value) + $this->panier->getProductInfo($key);
         }
+        $this->panier->updatePrice();
         echo $this->twig->render("panier.html.twig", array('products' => $product_info, 'total' => $this->panier->total_price));
     }
 }

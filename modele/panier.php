@@ -148,7 +148,7 @@ class panier extends Modele {
     }
 
     public function getProductInfo($id) {
-        $sql = "SELECT id, name,image,price,quantity as stock FROM products WHERE id = ?";
+        $sql = "SELECT id, cat_id, name,image,price,quantity as stock FROM products WHERE id = ?";
         $rslt = $this->executerRequete($sql, array($id));
         return $rslt->fetch();
     }
