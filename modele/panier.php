@@ -12,7 +12,9 @@ class panier extends Modele {
         if (gettype($connected) == "array") {
 
             //dans ce cas c'est le tableau de session
-            if (isset($connected['id'])) $this->id = $connected['id'];
+            if (isset($connected['id'])){
+                $this->id = $connected['id'];
+            }
 
             $this->contenu = $connected;
             unset($this->contenu['id']);//on ne garde que les produits
@@ -55,7 +57,7 @@ class panier extends Modele {
     }
 
     public function setIDfromSESSION($session_id) {
-        $sql = "SELECT * FROM orders WHERE status = 0 AND session = ? ORDER BY date DESC";
+        $sql = "SELECT * FROM orders WHERE status = 0 AND registered = 0 AND session = ? ORDER BY date DESC";
         $this->id = $this->executerRequete($sql, array($session_id))->fetch();
         if ($this->id) {//si il y a une résultat
             if (key_exists('id',$this->id)) $this->id = $this->id['id'];// si il y a une seule ligne, on prend l'id directement

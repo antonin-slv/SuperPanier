@@ -149,15 +149,16 @@ class Routeur
                 }
                 else //si l'utilisateur a touché au panier
                 { 
-                        //on récupère le panier en cours
-                        $panier = new Panier($_SESSION['Panier']);
+                    //on récupère le panier en cours
+                    $panier = new Panier($_SESSION['Panier']);
 
-                        if ($_SESSION['Connected'] ) $panier->fromGuestToUser($_SESSION['user_id']);
-                        else {
-                            $panier->fromGuestToUser($_SESSION['futur_user_id']);
-                        }
+                    if ($_SESSION['Connected'] ) $panier->fromGuestToUser($_SESSION['user_id']);
+                    else {
+                        $panier->fromGuestToUser($_SESSION['futur_user_id']);
+                    }
                 }
-
+                $panier->setPanierID($_SESSION['user_id']);
+                $_SESSION['Panier']['id'] = $panier->id; 
             }
         }
 

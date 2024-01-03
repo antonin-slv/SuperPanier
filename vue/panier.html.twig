@@ -1,36 +1,37 @@
 {% extends 'defTemplate.html.twig' %}
 {% block body %}
-    {% for produit in products %}
-        <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 50%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <img src="Contenu/productimages/{{ produit.image }}" class="card-img"  style="height: 200px;width: 200px" alt="{{ produit.name }}">
+    {% if products|length != 0 %}
+        {% for produit in products %}
+            <div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 50%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="Contenu/productimages/{{ produit.image }}" class="card-img" style="height: 200px;width: 200px" alt="{{ produit.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ produit.name }}</h4>
+                            <p class="card-text">Prix:
+                                {{ produit.price }}€</p>
+                            <p class="card-text">Quantité:
+                                {{ produit.quantity }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ produit.name }}</h4>
-                        <p class="card-text">Prix:
-                            {{ produit.price }}€</p>
-                        <p class="card-text">Quantité:
-                            {{ produit.quantity }}</p>
+                <div class="card-footer text-center">
+                    <form action="index.php?page=panier&action=rmFromCart" method="post">
+                        <input
+                        type="hidden" name="product_id" value={{ produit.id }}>
+                        <!-- a verifier -->
+                        <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
+                    </form>
+                    <div>
+                        <a class="btn btn-success mt-1 ml-auto" 
+                        href="index.php?page=shop{% if produit.cat_id == 1 %}&product=boissons{% elseif produit.cat_id == 2 %}&product=biscuits{% elseif produit.cat_id == 3 %}&product=fruits_sec{% endif %}">
+                            Produits similaires</a>
                     </div>
                 </div>
             </div>
-            <div class="card-footer text-center">
-                <form action="index.php?page=panier&action=rmFromCart" method="post">
-                    <input type="hidden" name="product_id" value={{ produit.id }}> <!-- a verifier -->
-                    <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer du panier">
-                </form>
-                <div>
-                    <a class="btn btn-success mt-1 ml-auto" href="index.php?page=shop{% if produit.cat_id == 1 %}&product=boissons
-                                                                        {% elseif produit.cat_id == 2 %}&product=biscuits
-                                                                        {% elseif produit.cat_id == 3 %}&product=fruits_sec
-                                                                        {% endif %}">Produits similaires</a>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-
+        {% endfor %}
 
 
         <h1>Votre panier</h1>
@@ -45,18 +46,25 @@
                 </tr>
             </thead>
             <tbody>
-            {% for item in products %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.price }} €</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.quantity * item.price }} €</td>
-                </tr>
-            {% endfor %}
+                {% for item in products %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.price }}
+                            €</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.quantity * item.price }}
+                            €</td>
+                    </tr>
+                {% endfor %}
                 <tr>
                     <td colspan="3">Total</td>
-                    <td>{{ total }} €</td>
+                    <td>{{ total }}
+                        €</td>
                 </tr>
             </tbody>
         </table>
+    {% else %}
+        <h1>Votre panier est vide</h1>
+        allez vite faire un tour dans notre boutique --> <a href="index.php?page=shop&product=fruits_sec">Boutique</a>
+    {% endif %}
 {% endblock %}
