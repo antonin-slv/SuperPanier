@@ -65,6 +65,11 @@
         </table>
         <div class="text-center">
             <a class="btn btn-danger" href="index.php?page=panier&action=killCart">Abandonner le panier</a>
+            {% if Connected %}
+                <a class="btn btn-success" href="index.php?page=paiement">Valider le panier</a>
+            {% else %}
+                <a class="btn btn-success" href="index.php?page=connexion">Connectez vous pour valider le panier</a>
+            {% endif %}
             <br><br>
         </div>  
     {% else %}

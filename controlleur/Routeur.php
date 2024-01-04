@@ -5,6 +5,8 @@ include_once('CtrlShop.php');
 include_once('CtrlConnexion.php');
 include_once('CtrlProduit.php');
 include_once('CtrlAdmin.php');
+include_once('CtrlPaiement.php');
+
 class Routeur
 {
     private $twig;
@@ -76,6 +78,16 @@ class Routeur
                     $ctrlAdmin->afficherCommande($_GET['commande']);
                 else //si on veut afficher la liste des commandes (par défaut
                     $ctrlAdmin->afficherListeCommandes();
+            }
+            elseif ($page == 'paiement') //si on est sur la page paiement
+            { 
+                if ($_SESSION['Connected']){
+                    $CtrlPaiement = new CtrlPaiement($this->twig, $_SESSION['user_id']);
+                    $CtrlPaiement->afficherPaiement();
+                }
+                else {
+                    echo $this->twig->render('404.html.twig', array('page' => 'paiement (sans connexion...)'));
+                }
             }
             else { // comportement par défaut (accueil)
                 echo $this->twig->render("accueil.html.twig");
@@ -205,6 +217,22 @@ class Routeur
                 $panier = new Panier($_SESSION['Connected']);
                 $panier->killCart();
                 unset($_SESSION['Panier']);
+            }
+            elseif ($_GET['action'] == 'modifierAdresseLivraison') {
+                $paiement = new paiement();
+                $paiement->saveAdresseLivraisonInBdd($_POST, $_SESSION['user_id']);
+            }
+            elseif ($_GET['action'] == 'modifierAdresseFacturation') {
+                $paiement = new paiement();
+                $paiement->saveAdresseFacturationInBdd($_POST, $_SESSION['user_id']);
+            }
+            elseif ($_GET['action'] == 'modifierModePaiement') {
+                $paiement = new paiement();
+                $paiement->saveModePaiementInBdd($_POST['payment_type'], $_SESSION['user_id']);
+            }
+            elseif ($_GET['action'] == 'payerEtFacture') {
+                $paiement = new paiement($_SESSION['user_id']);
+                $paiement->payerEtFacturer($_SESSION['user_id']);
             }
         }
 

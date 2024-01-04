@@ -1,0 +1,176 @@
+{% extends 'defTemplate.html.twig' %}
+{% block body %}
+	<div class="container">
+    
+        <!--formulaire pour l'adresses de livraison -->
+        <form action="index.php?page=paiement&action=modifierAdresseLivraison" method="post">
+            <input type="hidden" name="id_adresse" value={{ adresseLivraison.id }} />
+            <div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-6 pt-5">
+                        <h3 class="fw-normal mb-5">Modifier votre adresse de livraison :</h3>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center">
+
+                    <div class="col-lg-6 px-5 pb-5">
+                        <div class="row">
+                            <div class="col-md-5 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="numero" name="numero" value={{ adresseLivraison.numero }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="numero">Numéro</label>
+                                </div>
+                            </div>
+                            <div class="col-md-7 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="rue" name="rue" value={{ adresseLivraison.rue }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="rue">Rue</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4 pb-2">
+                            <div class="form-outline form-white">
+                                <input type="text" id="ville" name="ville" value={{ adresseLivraison.ville }} class="form-control form-control-lg" required/>
+                                <label class="form-label" for="ville">Ville</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-6 px-5 pb-5">
+                        <div class="row">
+                            <div class="col-md-5 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="code_postal" name="code_postal" value={{ adresseLivraison.code_postal }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="code_postal">Code postal</label>
+                                </div>
+                            </div>
+                            <div class="col-md-7 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="Pays" name="Pays" value={{ adresseLivraison.Pays }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="Pays">Pays</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4 pb-2">
+                            <div class="form-outline form-white">
+                                <input type="text" id="info_supp" name="info_supp" value={{ adresseLivraison.info_supp }} class="form-control form-control-lg" required/>
+                                <label class="form-label" for="info_supp">Informations supplémentaire</label>
+                            </div>
+                        </div>
+                        <button type="Submit" class="btn btn-success btn-lg">Valider la nouvelle adresse de livraison</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </form> 
+
+        <form action="index.php?page=paiement&action=modifierAdresseFacturation" method="post">
+            <input type="hidden" name="id_adresse" value={{ adresseFacturation.id }} />
+            <div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-6 pt-5">
+                        <h3 class="fw-normal mb-5">Modifier votre adresse de Facturation:</h3>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center">
+
+                    <div class="col-lg-6 px-5 pb-5">
+                        <div class="row">
+                            <div class="col-md-5 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="numero" name="numero" value={{ adresseFacturation.numero }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="numero">Numéro</label>
+                                </div>
+                            </div>
+                            <div class="col-md-7 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="rue" name="rue" value={{ adresseFacturation.rue }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="rue">Rue</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4 pb-2">
+                            <div class="form-outline form-white">
+                                <input type="text" id="ville" name="ville" value={{ adresseFacturation.ville }} class="form-control form-control-lg" required/>
+                                <label class="form-label" for="ville">Ville</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 px-5 pb-5">
+                        <div class="row">
+                            <div class="col-md-5 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="code_postal" name="code_postal" value={{ adresseFacturation.code_postal }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="code_postal">Code postal</label>
+                                </div>
+                            </div>
+                            <div class="col-md-7 mb-4 pb-2">
+                                <div class="form-outline form-white">
+                                    <input type="text" id="Pays" name="Pays" value={{ adresseFacturation.Pays }} class="form-control form-control-lg" required/>
+                                    <label class="form-label" for="Pays">Pays</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4 pb-2">
+                            <div class="form-outline form-white">
+                                <input type="text" id="info_supp" name="info_supp" value={{ adresseFacturation.info_supp }} class="form-control form-control-lg" required/>
+                                <label class="form-label" for="info_supp">Informations supplémentaire</label>
+                            </div>
+                        </div>
+                        <button type="Submit" class="btn btn-success btn-lg">Valider la nouvelle adresse de facturation</button>                        
+                    </div>
+
+                </div>
+            </div>
+        </form> 
+        <!--formulaire pour le mode de paiement-->
+        <form action="index.php?page=paiement&action=modifierModePaiement" method="post">
+            <div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-6 px-5">
+                        <h3 class="fw-normal mb-5">Mode de Paiement :</h3>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-6 px-5">
+                        <div class="mb-4 pb-2">
+                            <div class="form-outline form-white">
+                                <select class="form-select" id="payment_type" name="payment_type" aria-label="Default select example" required>
+                                    <option {% if modePaiement["payment_type"] == 'carteB' %} selected {% endif %} value="carteB">Carte bancaire</option>
+                                    <option {% if modePaiement["payment_type"] == 'paypal' %} selected {% endif %} value="paypal">Paypal</option>
+                                    <option {% if modePaiement["payment_type"] == 'cheque' %} selected {% endif %} value="cheque">Chèque</option>
+                                    <option {% if modePaiement["payment_type"] == 'espece' %} selected {% endif %} value="espece">Espèce</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 px-5">
+                        <button type="submit" class="btn btn-success btn-lg">Valider</button> 
+                    </div>
+                </div>
+            </div>
+        </form> 
+        <div class="row justify-content-md-center">
+            <div class="col-lg-6 px-5">
+                <a href="index.php?page=panier">
+                    <button type="button" class="btn btn-danger btn-lg">Continuer mes achats</button>
+                </a>
+            </div>
+            <div class="col-lg-6 px-5">
+                <a href="index.php?page=paiement&action=payerEtFacture">
+                    <button type="button" class="btn btn-success btn-lg">Payer et recevoir la Facture</button>
+                </a>
+            </div>
+        </div>
+        
+        
+
+	</div>
+</div>
+{% endblock %}

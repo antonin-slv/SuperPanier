@@ -108,7 +108,7 @@ class panier extends Modele {
         }
         $date = date("Y-m-d");
         
-        $sql = "INSERT INTO orders (customer_id, session, date, status, registered,delivery_add_id) VALUES (?, ?, ?, 0, ?,?)";
+        $sql = "INSERT INTO orders (customer_id, session, date, status, registered,delivery_add_id,payment_type) VALUES (?, ?, ?, 0, ?,?,'carteB')";
         $this->executerRequete($sql, array($customer_id, $session, $date, $registered,$id_address));
         $this->id = $this->getBDD()->lastInsertId();
         $_SESSION['Panier']['id'] = $this->id;
