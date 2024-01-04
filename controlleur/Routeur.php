@@ -146,19 +146,30 @@ class Routeur
                     $panier->setPanierID($_SESSION['user_id']);
                     //on récupère les produits du panier (ou rien XD)
                     $_SESSION['Panier'] = $panier->loadBDDProducts();
+                    $_SESSION['Panier']['id'] = $panier->id;
                 }
                 else //si l'utilisateur a touché au panier
                 { 
                     //on récupère le panier en cours
                     $panier = new Panier($_SESSION['Panier']);
 
-                    if ($_SESSION['Connected'] ) $panier->fromGuestToUser($_SESSION['user_id']);
+                    if ($_SESSION['Connected'] ){
+
+                        $vraispanier = new Panier(true);
+                        $vraispanier->setPanierID($_SESSION['user_id']);
+                        $vraispanier->addCartToCart($panier->id);
+                        $panier->killCart();
+                        $_SESSION['Panier'] = $vraispanier->loadBDDProducts();
+                        $_SESSION['Panier']['id'] = $vraispanier->id;
+                    } 
                     else {
                         $panier->fromGuestToUser($_SESSION['futur_user_id']);
+                        $panier->setPanierID($_SESSION['user_id']);
+                        $_SESSION['Panier']['id'] = $panier->id;
                     }
+                    
                 }
-                $panier->setPanierID($_SESSION['user_id']);
-                $_SESSION['Panier']['id'] = $panier->id; 
+                
             }
         }
 

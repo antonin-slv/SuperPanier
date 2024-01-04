@@ -14,17 +14,24 @@ class panier extends Modele {
             //dans ce cas c'est le tableau de session
             if (isset($connected['id'])){
                 $this->id = $connected['id'];
+                $this->loadBDDProducts();
+            }else{
+                $this->contenu = $connected;
+                $this->setPanierID($_SESSION["user_id"]);
             }
-
-            $this->contenu = $connected;
             unset($this->contenu['id']);//on ne garde que les produits
 
             $this->connected = $_SESSION['Connected'];
         }
         elseif (gettype($connected) == "integer") {
             $this->id = $connected;
+            $this->loadBDDProducts();
+        }else{
+            $this->connected = $connected;
+            $this->setPanierID($_SESSION["user_id"]);
+            $this->loadBDDProducts();
         }
-        else $this->connected = $connected;
+
     }
 
 
@@ -80,6 +87,8 @@ class panier extends Modele {
             unset($this->contenu[$key]);
         }
         $this->contenu = $temp;
+        $__SESSION['Panier'] = $this->contenu;
+        $__SESSION['Panier']['id'] = $this->id;
         return $this->contenu;
     }
 
@@ -111,17 +120,18 @@ class panier extends Modele {
         $sql = "SELECT * FROM orderitems WHERE order_id = ? AND product_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id, $id))->fetch();
         if ($rslt) {//si il y a un résultat, alors le produit est déjà dans le panier
-            //on remplace l'ancienne qtt par la nouvelle
+            //on ajoute l'ancienne qtt avec la nouvelle
             $sql = "UPDATE orderitems SET quantity = ? WHERE order_id = ? AND product_id = ?";
             $this->executerRequete($sql, array( $qte + $rslt["quantity"], $this->id, $id));
+            $_SESSION['Panier'][$id] = $qte + $rslt["quantity"];
         }
         else {//sinon, on l'ajoute
             $sql = "INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)";
             $this->executerRequete($sql, array($this->id, $id, $qte));
+            $_SESSION['Panier'][$id] = $qte;
         }
         
-        $_SESSION['Panier'][$id] = $qte;
-
+        
         $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
         $this->executerRequete($sql, array($qte, $id));
 
@@ -165,5 +175,22 @@ class panier extends Modele {
         unset($_SESSION['Panier'][$id]);
 
         $this->updatePrice();
+    }
+
+    public function addCartToCart($id) { //ajoute un panier ($id en parametre) à un autre panier (this)
+        $sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        $rslt = $this->executerRequete($sql, array($id))->fetchAll();
+        foreach ($rslt as $key => $value) {
+            $this->addProduct($value['product_id'], $value['quantity']);
+        }
+    }   
+
+    public function killCart() {
+        // on suprime les produits du panier de la BDD
+        $sql = "DELETE FROM orderitems WHERE order_id = ?";
+        $this->executerRequete($sql, array($this->id));
+        // on suprime le panier de la BDD
+        $sql = "DELETE FROM orders WHERE id = ?";
+        $this->executerRequete($sql, array($this->id));
     }
 }
