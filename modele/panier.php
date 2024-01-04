@@ -187,8 +187,11 @@ class panier extends Modele {
 
     public function killCart() {
         // on suprime les produits du panier de la BDD
-        $sql = "DELETE FROM orderitems WHERE order_id = ?";
-        $this->executerRequete($sql, array($this->id));
+        $sql = "SELECT * FROM orderitems WHERE order_id = ?";
+        $rslt = $this->executerRequete($sql, array($this->id))->fetchAll();
+        foreach ($rslt as $key => $value) {
+            $this->removeProduct($value['product_id']);
+        }
         // on suprime le panier de la BDD
         $sql = "DELETE FROM orders WHERE id = ?";
         $this->executerRequete($sql, array($this->id));

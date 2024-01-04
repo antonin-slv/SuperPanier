@@ -201,6 +201,11 @@ class Routeur
                     $panier->removeProduct($_POST['product_id']);
                 }
             }
+            elseif ($_GET['action'] == 'killCart') {
+                $panier = new Panier($_SESSION['Connected']);
+                $panier->killCart();
+                unset($_SESSION['Panier']);
+            }
         }
 
 
