@@ -68,6 +68,10 @@
                 </form>
             {% elseif info.status < 2 %}
                 <b>Commande en cours</b>
+                <form action="index.php?page=admin&action=killCommande" method="post">
+                    <input type="hidden" name="idCommande" value={{ info.id }}>
+                    <input type="submit" class="btn btn-danger mt-1 ml-auto" value="Suprimer la Commande">
+                </form>
             {% else %}
                 <b>Commande validée</b>
             {% endif %}

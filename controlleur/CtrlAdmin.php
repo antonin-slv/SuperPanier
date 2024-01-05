@@ -52,7 +52,7 @@ class ctrlAdmin {
 
         $commande = new commande(intval($id));
         $info = $commande->getCommandInfo($id);//faire en 1ere requete (charge produits)
-
+        $product_info = array();
         // on donne les noms corrects à chaque produit
         foreach ($commande->getProducts() as $key => $value) {
             //on récupère les infos du produit

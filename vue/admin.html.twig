@@ -4,7 +4,14 @@
     <h1>Administration des commandes</h1>
 	<div class="row mx-auto" style="width: 90%;">
 		{% for commande in commandes %}
-			<div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover; ">
+			<div class="card mx-auto my-2 p-2 text-center" style="width: 18rem; background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;
+                {% if commande.status == 10 %}
+                    border: solid grey 2px;
+                {% elseif commande.status == 2 %} 
+                    border: solid lime 8px;
+                {% else %}
+                    border: solid blue 2px;
+                {% endif %}">
 				<div class="card-body">
                     {% if commande.user %}
 					<h5 class="card-title">{{ commande.user['forname'] ~" "~ commande.user['surname'] }}</h5>

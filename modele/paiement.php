@@ -92,7 +92,7 @@ class paiement extends Modele
 
     public function payerEtFacturer()
     {
-        $sql = "UPDATE orders SET status = 1 WHERE customer_id = $this->user_id AND status = 0";
+        $sql = "UPDATE orders SET status = 2 WHERE customer_id = $this->user_id AND status = 0";
         $this->executerRequete($sql);
         $this->facture();
     }

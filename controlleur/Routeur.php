@@ -234,6 +234,10 @@ class Routeur
                 $paiement = new paiement($_SESSION['user_id']);
                 $paiement->payerEtFacturer($_SESSION['user_id']);
             }
+            elseif ($_GET['action'] == 'killCommande') {
+                $panier = new panier(intval($_POST['idCommande']));
+                $panier->killCart();
+            }
         }
 
 

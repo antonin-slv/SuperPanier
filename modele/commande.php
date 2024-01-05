@@ -3,6 +3,8 @@ require_once 'panier.php';
 
 class commande extends panier {
     public function __construct($id) {
+        if ($id == null) return;
+            
         parent::__construct($id);
     }
 
@@ -44,16 +46,11 @@ class commande extends panier {
     }
     public function getAdress($id = null) {
         if ($id == null) $id = $this->id;
-        $sql = "SELECT delivery_add_id as id FROM orders WHERE id = ?";
-        $commande = $this->executerRequete($sql, array($id))->fetch();
-        //on récupère les infos de l'adresse
-        $sql = "SELECT adresse_id FROM delivery_addresses WHERE id = ?";
-        $adresse = $this->executerRequete($sql, array($commande['id']))->fetch();
-        if ($adresse == null) return null;
-        $sql = "SELECT * FROM adresses WHERE id = ?";
-        $adresse = $this->executerRequete($sql, array($adresse['adresse_id']))->fetch(); 
-
-        return $adresse;
+        $sql = "SELECT delivery_add_id FROM orders WHERE id = $id";
+        $idAdress = $this->executerRequete($sql)->fetch()['delivery_add_id'];
+        if ($idAdress == null) return null;
+        $sql = "SELECT * FROM adresses WHERE id = $idAdress";
+        return $this->executerRequete($sql)->fetch(); 
     }
     public function getCommandInfo($id) {
         $sql = "SELECT * FROM orders WHERE id = ?";
