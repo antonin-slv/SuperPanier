@@ -238,6 +238,10 @@ class Routeur
                 $panier = new panier(intval($_POST['idCommande']));
                 $panier->killCart();
             }
+            elseif ($_GET['action'] == 'addToStock') {
+                $produit = new produit();
+                $produit->addToStock(intval($_POST['product_id']),intval($_POST['quantity']));
+            }
         }
 
 

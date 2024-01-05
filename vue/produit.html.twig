@@ -18,11 +18,31 @@
 			</div>
 			<!-- COMMENTAIRES ??-->
 		</div>
-		{% if produit.quantity == 0 %}
+		{% if admin %}
+			<div class="card-footer text-center">
+				<form action="index.php?action=addToStock&page=shop	{% if produit.cat_id == 1 %}&product=boissons
+																	{% elseif produit.cat_id == 2 %}&product=biscuits
+																	{% elseif produit.cat_id == 3 %}&product=fruits_sec
+																	{% endif %}" method="post" class="row">
+					<input type="hidden" name="product_id" value="{{ produit.id }}">
+					<div class="form-group col-md-8">
+						<label for="quantity">Quantité:</label>
+						<input type="number" class="form-control" name="quantity" value="1" min="-{{ produit.quantity }}">
+					</div>
+					<div class="col-md-4 d-flex">
+						<input type="submit" class="btn btn-success mt-1 ml-auto" value="Ajouter au Stock">
+					
+						<a href="index.php?page=shop	{% if produit.cat_id == 1 %}&product=boissons
+														{% elseif produit.cat_id == 2 %}&product=biscuits
+														{% elseif produit.cat_id == 3 %}&product=fruits_sec
+														{% endif %}" class="btn btn-primary mt-1 m-auto">Retour</a>
+					</div>
+				</form>
+			</div>
+		{% elseif produit.quantity == 0  %}
 			<div class="card-footer text-center">
 				<h4 class="card-text text-danger text-uppercase">Victime de son succès !</h4>
 			</div>
-		{% elseif admin %}
 		{% else %}
 			<div class="card-footer">
 				<form action="index.php?action=addToCart&page=shop	{% if produit.cat_id == 1 %}&product=boissons
@@ -36,6 +56,11 @@
 					</div>
 					<div class="col-md-4 d-flex">
 						<input type="submit" class="btn btn-success mt-1 ml-auto" value="Ajouter au panier">
+					
+						<a href="index.php?page=shop	{% if produit.cat_id == 1 %}&product=boissons
+														{% elseif produit.cat_id == 2 %}&product=biscuits
+														{% elseif produit.cat_id == 3 %}&product=fruits_sec
+														{% endif %}" class="btn btn-primary mt-1 m-auto">Retour</a>
 					</div>
 				</form>
 			</div>
