@@ -102,6 +102,11 @@ class panier extends Modele {
         return $user;
     }
 
+    public function getModePaiement($orders_id) {
+        $sql = "SELECT payment_type FROM orders WHERE id = $orders_id";
+        return $this->executerRequete($sql)->fetch()['payment_type'];
+    }
+
     public function createPanier($id) {
         if ($this->connected) {
             $customer_id = $id;

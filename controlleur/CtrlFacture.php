@@ -6,6 +6,7 @@ class CtrlFacture extends FPDF
     private $product_info;
     private $total_price;
     private $user_info;
+    private $mode_paiement;
 
     public function __construct ($panier_id)
     {
@@ -20,7 +21,7 @@ class CtrlFacture extends FPDF
         $panier->updatePrice();
         $this->total_price = $panier->total_price;
         $this->user_info = $panier->getUserInfoFromIdPanier($panier_id);
-
+        $this->mode_paiement = $panier->getModePaiement($panier_id);
     }
 
     public function monFooter($pdf)
@@ -30,6 +31,89 @@ class CtrlFacture extends FPDF
         $pdf->Cell(1,3,'ISIWEB4SHOP by Antonin Sylvestre & Thomas Blanche',0,0,'L');
         $pdf->Cell(0,3,'Page '.$pdf->PageNo().'/{nb}',0,1,'R');
         $pdf->Cell(0,0,'',1,1);
+        return $pdf;
+    }
+
+    public function afficherModePaiement($pdf)
+    {
+        switch ($this->mode_paiement) {
+            case 'carteB':
+                return $this->afficherCarteBleu($pdf);
+                break;
+            case 'paypal':
+                return $this->afficherPaypal($pdf);
+                break;
+            case 'cheque':
+                return $this->afficherCheque($pdf);
+                break;
+            case 'espece':
+                return $this->afficherLiquide($pdf);
+                break;
+            default:
+                return $this->afficherCarteBleu($pdf);
+                break;
+        }
+    }
+
+    public function afficherCarteBleu($pdf)
+    {
+        if ($pdf->GetY() > 220){
+            $pdf= $this->monFooter($pdf);
+            $pdf->AddPage();
+        }
+        $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Mode de paiement : Carte Bleu',0,1);
+        $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Numero de carte : XXXX-XXXX-XXXX-**56',0,1);
+        $pdf->Cell(0,5,'Date d\'expiration : 10 / 2027',0,1);
+        $pdf->Cell(0,5,'Cryptogramme : ***',0,1);
+        return $pdf;
+    }
+
+    public function afficherPaypal($pdf)
+    {
+        if ($pdf->GetY() > 220){
+            $pdf= $this->monFooter($pdf);
+            $pdf->AddPage();
+        }
+        $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Mode de paiement : Paypal',0,1);
+        $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Adresse mail : '.$this->user_info['email'],0,1);
+        return $pdf;
+    }
+
+    public function afficherCheque($pdf)
+    {
+        if ($pdf->GetY() > 220){
+            $pdf= $this->monFooter($pdf);
+            $pdf->AddPage();
+        }
+        $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Mode de paiement : Cheque',0,1);
+        $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Adresse d\'envoi : ISIWEB4SHOP, 15 Bd Andre Latarjet, 69100 Villeurbanne France',0,1);
+        $pdf->Cell(0,5,'Vous recevrez un mail de confirmation avec les informations necessaires pour envoyer votre cheque',0,1);
+        $pdf->Cell(0,5,'La commande sera envoyee une fois le cheque recu',0,1);
+        return $pdf;
+    }
+
+    public function afficherLiquide($pdf)
+    {
+        if ($pdf->GetY() > 220){
+            $pdf= $this->monFooter($pdf);
+            $pdf->AddPage();
+        }
+        $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Mode de paiement : Liquide',0,1);
+        $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,5,'Adresse de rendez-vous : 8 All. Julien Duvivier 69100 Villeurbanne',0,1);
+        $pdf->Cell(0,5,'Coordonnes : 45.777077 4.861938',0,1);
+        $pdf->SetFont('Arial','I',8);$pdf->SetTextColor(0,0,0);
+        $pdf->Cell(0,3,'Vous recevrez un mail vous indiquant la date et l\'heure du rendez-vous',0,1);
+        $pdf->Cell(0,3,'La commande sera remise en main propre',0,1);
+        $pdf->Cell(0,3,'Merci de prevoir la somme exacte',0,1);
+        $pdf->Cell(0,3,'Venez SEUL ou l\'echange ne sera pas possible',0,1);
         return $pdf;
     }
 
@@ -119,7 +203,13 @@ class CtrlFacture extends FPDF
 
         $pdf->SetFont('Arial','B',12);
         $pdf->Cell($margeD + $name + $quantity + $price + $total,10,'Total :  '.$this->total_price.' euros',0,1,'R'); // Right aligned
+        $pdf->Ln(12);
 
+
+            // INFO mode paiement
+
+        $pdf = $this->afficherModePaiement($pdf);
+        
 
             // FOOTER
 
@@ -128,8 +218,8 @@ class CtrlFacture extends FPDF
 
             // OUTPUT
 
-        $pdf->Close();
-        $pdf->Output();
+        $pdf->Output('Facture.pdf', 'I', true); // display
+        //$pdf->Output('Facture.pdf', 'D', true); // download ( il faut alors commenter le display et faire en sorte qu'il n'y ai qu'une page)
 
     }
 }
