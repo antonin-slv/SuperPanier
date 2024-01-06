@@ -7,8 +7,8 @@ $routeur = new Routeur();
 $routeur->initSession();
 $routeur->routerRequete(); //c'est le routeur qui met en relation les controlleurs
 
-echo "<p>POST : ";
-var_dump($_POST);
-echo "SESSION : ";
-var_dump($_SESSION);
-echo "</p>";
+// echo "<p>POST : ";
+// var_dump($_POST);
+// echo "SESSION : ";
+// var_dump($_SESSION);
+// echo "</p>";
