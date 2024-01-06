@@ -21,7 +21,8 @@ class CtrlPaiement
         [
             'adresseFacturation'=> $this->paiement->getAdresseFacturation(),
             'adresseLivraison'=> $this->paiement->getAdresseLivraison(),
-            'modePaiement'=> $this->paiement->getModePaiement()
+            'modePaiement'=> $this->paiement->getModePaiement(),
+            'id_panier'=> $this->panier->id
         ]);
     }
 }

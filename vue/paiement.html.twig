@@ -163,14 +163,25 @@
                 </a>
             </div>
             <div class="col-lg-6 px-5">
-                <a href="index.php?action=payerEtFacture">
+                <a href="index.php?action=payerEtFacture" name = 'multiLinksTarget'>
                     <button type="button" class="btn btn-success btn-lg">Payer et recevoir la Facture</button>
                 </a>
+                <script type="text/javascript"> //ouvre une popup avec la facture
+                    var target;
+                    target= document.getElementsByName('multiLinksTarget')[0]; //récupère le bouton qui est juste au dessus grace au name = multiLinksTarget
+                    function multiLinks(){
+                        //window.open('index.php'); //ouvrir un target _blank
+                        window.open("index.php?page=facture&commande={{ id_panier }}",'_blank', 'toolbar=0,location=0,menubar=0'); // ouvre une popup
+                        //window.location.href = "index.php"; // remplace la page courante
+                    }
+                    target.onclick = multiLinks; //lance la fonction multiLinks au click sur le bouton. autorise donc a faire plusieurs actions au click ...
+                </script>
             </div>
         </div>
         
-        
+                  
 
+                    
 	</div>
 </div>
 {% endblock %}

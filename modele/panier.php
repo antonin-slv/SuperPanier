@@ -92,6 +92,16 @@ class panier extends Modele {
         return $this->contenu;
     }
 
+    public function getUserInfoFromIdPanier($orders_id) { //utilisé pour la facture...
+        //on récupère l'id du client
+        $sql = "SELECT customer_id FROM orders WHERE id = $orders_id";
+        $userID = $this->executerRequete($sql)->fetch()['customer_id'];
+        //on récupère les infos du client
+        $sql = "SELECT c.forname, c.surname, c.phone, c.email, a.numero, a.rue, a.ville, a.code_postal, a.Pays, a.info_supp FROM customers c JOIN adresses a ON c.adresse_id = a.id WHERE c.id = (SELECT customer_id FROM orders o WHERE o.id = $orders_id)";
+        $user = $this->executerRequete($sql)->fetch();
+        return $user;
+    }
+
     public function createPanier($id) {
         if ($this->connected) {
             $customer_id = $id;

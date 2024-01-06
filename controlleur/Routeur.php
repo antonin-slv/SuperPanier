@@ -6,6 +6,7 @@ include_once('CtrlConnexion.php');
 include_once('CtrlProduit.php');
 include_once('CtrlAdmin.php');
 include_once('CtrlPaiement.php');
+include_once('CtrlFacture.php');
 
 class Routeur
 {
@@ -38,7 +39,7 @@ class Routeur
 
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
-            if (!file_exists("vue/$page.html.twig") && !file_exists("controlleur/Ctrl$page.php"))
+            if (!file_exists("vue/$page.html.twig") && !file_exists("controlleur/Ctrl$page.php") && $page != 'facture')
             {
                 //on sort la page 404
                 echo $this->twig->render('404.html.twig', array('page' => $page));
@@ -87,6 +88,16 @@ class Routeur
                 }
                 else {
                     echo $this->twig->render('404.html.twig', array('page' => 'paiement (sans connexion...)'));
+                }
+            }
+            elseif ($page == 'facture') //si on est sur la page facture
+            {
+                if (isset($_GET['commande'])) {
+                    $CtrlFacture = new CtrlFacture($_GET['commande']);
+                    $CtrlFacture->afficherFacture();
+                }
+                else {
+                    echo $this->twig->render('404.html.twig', array('page' => 'facture (commande inexistante...)'));
                 }
             }
             else { // comportement par défaut (accueil)
@@ -233,6 +244,7 @@ class Routeur
             elseif ($_GET['action'] == 'payerEtFacture') {
                 $paiement = new paiement($_SESSION['user_id']);
                 $paiement->payerEtFacturer($_SESSION['user_id']);
+                unset($_SESSION['Panier']);
             }
             elseif ($_GET['action'] == 'killCommande') {
                 $panier = new panier(intval($_POST['idCommande']));
