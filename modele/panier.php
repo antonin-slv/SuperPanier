@@ -180,14 +180,14 @@ class panier extends Modele {
         return $rslt->fetch();
     }
 
-    public function removeProduct($id) {
-        $sql = "DELETE FROM orderitems WHERE order_id = ? AND product_id = ?";
-        $this->executerRequete($sql, array($this->id, $id));
+    public function removeProduct($product_id, $orders_id) {
+        $sql = "UPDATE products SET quantity = quantity + (SELECT quantity FROM orderitems WHERE order_id = $orders_id AND product_id = $product_id) WHERE id = $product_id";
+        $this->executerRequete($sql);
 
-        $sql = "UPDATE products SET quantity = quantity + ? WHERE id = ?";
-        $this->executerRequete($sql, array($_SESSION['Panier'][$id], $id));
+        $sql = "DELETE FROM orderitems WHERE order_id = $orders_id AND product_id = $product_id";
+        $this->executerRequete($sql);
 
-        unset($_SESSION['Panier'][$id]);
+        unset($_SESSION['Panier'][$product_id]);
 
         $this->updatePrice();
     }
@@ -205,7 +205,7 @@ class panier extends Modele {
         $sql = "SELECT * FROM orderitems WHERE order_id = ?";
         $rslt = $this->executerRequete($sql, array($this->id))->fetchAll();
         foreach ($rslt as $key => $value) {
-            $this->removeProduct($value['product_id']);
+            $this->removeProduct($value['product_id'], $this->id);
         }
         // on suprime le panier de la BDD
         $sql = "DELETE FROM orders WHERE id = ?";

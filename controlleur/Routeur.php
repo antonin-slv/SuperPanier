@@ -221,7 +221,7 @@ class Routeur
                 {
                     $panier = new Panier($_SESSION['Connected']);
                     $panier->id = $_SESSION['Panier']['id'];
-                    $panier->removeProduct($_POST['product_id']);
+                    $panier->removeProduct($_POST['product_id'], $panier->id);
                 }
             }
             elseif ($_GET['action'] == 'killCart') {

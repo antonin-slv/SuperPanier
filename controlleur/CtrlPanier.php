@@ -12,7 +12,6 @@ class CtrlPanier
         
         if (isset($_SESSION['Panier'])) $this->panier = new panier($_SESSION['Panier']);
         else $this->panier = false;
-        //var_dump($this->panier);
     }
 
     public function afficherPanier()
