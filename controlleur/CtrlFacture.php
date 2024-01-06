@@ -28,7 +28,7 @@ class CtrlFacture extends FPDF
     {
         $pdf->SetY(-15);$pdf->SetX(89.8);$pdf->SetFont('Arial', 'I', 6);$pdf->Cell(1,1,'-');
         $pdf->SetY(-15);$pdf->SetFont('Arial', 'I', 8);
-        $pdf->Cell(1,3,'ISIWEB4SHOP by Antonin Sylvestre & Thomas Blanche',0,0,'L');
+        $pdf->Cell(1,3,'ISIWEB4SHOP by Antonin Sylvestre & Thomas Blanché',0,0,'L');
         $pdf->Cell(0,3,'Page '.$pdf->PageNo().'/{nb}',0,1,'R');
         $pdf->Cell(0,0,'',1,1);
         return $pdf;
@@ -90,11 +90,11 @@ class CtrlFacture extends FPDF
             $pdf->AddPage();
         }
         $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
-        $pdf->Cell(0,5,'Mode de paiement : Cheque',0,1);
+        $pdf->Cell(0,5,'Mode de paiement : Chèque',0,1);
         $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
         $pdf->Cell(0,5,'Adresse d\'envoi : ISIWEB4SHOP, 15 Bd Andre Latarjet, 69100 Villeurbanne France',0,1);
-        $pdf->Cell(0,5,'Vous recevrez un mail de confirmation avec les informations necessaires pour envoyer votre cheque',0,1);
-        $pdf->Cell(0,5,'La commande sera envoyee une fois le cheque recu',0,1);
+        $pdf->Cell(0,5,'Vous recevrez un mail de confirmation avec les informations necessaires pour envoyer votre chèque',0,1);
+        $pdf->Cell(0,5,'La commande sera envoyée une fois le chèque reçu',0,1);
         return $pdf;
     }
 
@@ -113,7 +113,7 @@ class CtrlFacture extends FPDF
         $pdf->Cell(0,3,'Vous recevrez un mail vous indiquant la date et l\'heure du rendez-vous',0,1);
         $pdf->Cell(0,3,'La commande sera remise en main propre',0,1);
         $pdf->Cell(0,3,'Merci de prevoir la somme exacte',0,1);
-        $pdf->Cell(0,3,'Venez SEUL ou l\'echange ne sera pas possible',0,1);
+        $pdf->Cell(0,3,'Venez SEUL ou l\'échange ne sera pas possible',0,1);
         return $pdf;
     }
 
@@ -177,7 +177,7 @@ class CtrlFacture extends FPDF
         $pdf->SetFont('Arial','B',12);$pdf->SetFillColor(57, 89, 162);$pdf->SetTextColor(255,255,255);
         $pdf->Cell($margeD,10,'',0,0,'L',true);
         $pdf->Cell($name,10,'Produit',0,0,'L',true);
-        $pdf->Cell($quantity,10,'Quantite',0,0,'L',true);
+        $pdf->Cell($quantity,10,'Quantité',0,0,'L',true);
         $pdf->Cell($price,10,'Prix (en euro)',0,0,'L',true);
         $pdf->Cell($total,10,'Total',0,1,'L',true); 
 
@@ -187,8 +187,8 @@ class CtrlFacture extends FPDF
             $pdf->Cell($margeD,10,'',0,0,'L',$fill);
             $pdf->Cell($name,10,$value['name'],0,0,'L',$fill);
             $pdf->Cell($quantity,10,$value['quantity'],0,0,'L',$fill);
-            $pdf->Cell($price,10,$value['price'],0,0,'L',$fill);
-            $pdf->Cell($total,10,$value['price']*$value['quantity'],0,1,'L',$fill);
+            $pdf->Cell($price,10,$value['price'].' €',0,0,'L',$fill);
+            $pdf->Cell($total,10,$value['price']*$value['quantity'].' €',0,1,'L',$fill);
             $fill = !$fill;
             if($pdf->GetY() > 220){
                 $pdf = $this->monFooter($pdf);
@@ -202,7 +202,7 @@ class CtrlFacture extends FPDF
             // INFO total price
 
         $pdf->SetFont('Arial','B',12);
-        $pdf->Cell($margeD + $name + $quantity + $price + $total,10,'Total :  '.$this->total_price.' euros',0,1,'R'); // Right aligned
+        $pdf->Cell($margeD + $name + $quantity + $price + $total,10,'Total :  '.$this->total_price.' €',0,1,'R'); // Right aligned
         $pdf->Ln(12);
 
 
