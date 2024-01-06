@@ -66,5 +66,17 @@
 			</div>
 		{% endif %}
 	</div>
+	</br>
+	
+	{% for avi in avis %}
+		<div class="card bg-primary mb-3 mx-auto mt-3" style="max-width: 90%;background-image: url(Contenu/images/fond_etoile.jpg);background-size: cover;">
+			<div class="card-header">
+				<h3 class="card-title">{{ avi.stars }}/5 : {{ avi.title }}</h3>
+			</div>
+			<div class="card-body">
+				<p class="card-text">{{ avi.description }} <i> || Posté par {{ avi.name_user }} </i> </p>
+			</div>
+		</div>
+	{% endfor %}
 
 {% endblock %}

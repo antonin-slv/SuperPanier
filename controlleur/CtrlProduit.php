@@ -17,6 +17,7 @@ class CtrlProduit
     {
         echo $this->twig->render("produit.html.twig",[
             'produit'=> $this->produit->getProduit()[0],
+            'avis'=> $this->produit->getAvis()
             ]);
     }
 }
