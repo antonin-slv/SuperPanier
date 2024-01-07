@@ -42,12 +42,21 @@ class panier extends Modele {
         return $this->contenu;
     }
 
-    public function setPanierID($id) {
+    public function setPanierID($id, $register = false, $newcustomerid = null) {
         
+        if ($register) {
+            $this->createPanier($newcustomerid);
+            return;
+        }
         if ($this->connected) {
             if($this->setIDfromUSER($id)) return;
         }
-        else if ($this->setIDfromSESSION($id)) return;
+        else {
+            if($this->setIDfromSESSION($id)) 
+            {
+                return;
+            }
+        }
         $this->createPanier($id);
     }
 
@@ -112,8 +121,8 @@ class panier extends Modele {
             $customer_id = $id;
             $session = session_id();
             $registered = 1;
-            $sql = "SELECT adresse_id FROM customers WHERE id = ?";
-            $id_address = $this->executerRequete($sql, array($id))->fetch()['adresse_id'];
+            $sql = "SELECT adresse_id FROM customers WHERE id = $id";
+            $id_address = $this->executerRequete($sql)->fetch()['adresse_id'];
         }
         else {
             $customer_id = -1;
@@ -170,7 +179,7 @@ class panier extends Modele {
     public function fromGuestToUser($user_id) {
         //ajout de l'id user et de son adresse dans la BDD
         $sql = "UPDATE orders SET customer_id = ?, delivery_add_id = ?, registered = 1 WHERE id = ?";
-        $this->executerRequete($sql, array($user_id, $this->getUserAdress($_SESSION['user_id']), $this->id));
+        $this->executerRequete($sql, array($user_id, $this->getUserAdress($user_id), $this->id));
         $this->connected = true;
     }
 

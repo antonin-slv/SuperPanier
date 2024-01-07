@@ -176,7 +176,7 @@ class Routeur
                     //on récupère le panier en cours
                     $panier = new Panier($_SESSION['Panier']);
 
-                    if ($_SESSION['Connected'] ){
+                    if ($_SESSION['Connected'] ){ //si l'utilisateur c'est connecté
 
                         $vraispanier = new Panier(true);
                         $vraispanier->setPanierID($_SESSION['user_id']);
@@ -185,9 +185,9 @@ class Routeur
                         $_SESSION['Panier'] = $vraispanier->loadBDDProducts();
                         $_SESSION['Panier']['id'] = $vraispanier->id;
                     } 
-                    else {
+                    else { //si l'utilisateur vient de créer un compte
                         $panier->fromGuestToUser($_SESSION['futur_user_id']);
-                        $panier->setPanierID($_SESSION['user_id']);
+                        $panier->setPanierID($_SESSION['user_id'], true , $_SESSION['futur_user_id']);
                         $_SESSION['Panier']['id'] = $panier->id;
                     }
                     
