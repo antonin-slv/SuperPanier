@@ -79,7 +79,10 @@ class CtrlFacture extends FPDF
         $pdf->SetFont('Arial','B',12);$pdf->SetTextColor(0,0,0);
         $pdf->Cell(0,5,'Mode de paiement : Paypal',0,1);
         $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
-        $pdf->Cell(0,5,'Adresse mail : '.$this->user_info['email'],0,1);
+        $pdf->Cell(0,5,'Votre adresse mail : '.$this->user_info['email'],0,1);
+        $pdf->Cell(0,5,'Vous devez envoyer le montant de la commande à l\'adresse mail ci-dessous :',0,1);
+        $pdf->Cell(0,5,'ISIWEB4SHOP@gmail.com',0,1);
+        $pdf->Cell(0,5,'La commande sera envoyée une fois le paiement reçu',0,1);
         return $pdf;
     }
 
@@ -93,7 +96,7 @@ class CtrlFacture extends FPDF
         $pdf->Cell(0,5,'Mode de paiement : Chèque',0,1);
         $pdf->SetFont('Arial','',12);$pdf->SetTextColor(0,0,0);
         $pdf->Cell(0,5,'Adresse d\'envoi : ISIWEB4SHOP, 15 Bd Andre Latarjet, 69100 Villeurbanne France',0,1);
-        $pdf->Cell(0,5,'Vous recevrez un mail de confirmation avec les informations necessaires pour envoyer votre chèque',0,1);
+        $pdf->Cell(0,5,'Vous recevrez un mail avec les informations necessaires pour envoyer votre chèque',0,1);
         $pdf->Cell(0,5,'La commande sera envoyée une fois le chèque reçu',0,1);
         return $pdf;
     }

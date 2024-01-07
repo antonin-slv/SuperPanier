@@ -167,12 +167,41 @@
                 </a>
             </div>
             <div class="col-lg-6 px-5 my-2">
-                <a href="index.php?action=payerEtFacture" name = 'multiLinksTarget'>
-                    <button type="button" class="btn btn-success btn-lg">Payer et recevoir la Facture</button>
+                <a href="index.php?action=payerEtFacture" name = 'multiLinksTargetBanque'> <!-- plus vraiment facture... cela ne fait que payer -->
+                    <button type="button" class="btn btn-success btn-lg m-2">Valider Paiement</button>
+                </a>
+                {% if modePaiement["payment_type"] == 'paypal' %}
+                    
+                    <script type="text/javascript"> //ouvre une popup avec la facture
+                        var target;
+                        target= document.getElementsByName('multiLinksTargetBanque')[0]; //récupère le bouton qui est juste au dessus grace au name = multiLinksTarget
+                        function multiLinks(){
+                            //window.open('index.php'); //ouvrir un target _blank
+                            window.open("https://www.paypal.com/signin",'_blank', 'toolbar=0,location=0,menubar=0'); // ouvre une popup
+                            //window.location.href = "index.php"; // remplace la page courante
+                        }
+                        target.onclick = multiLinks; //lance la fonction multiLinks au click sur le bouton. autorise donc a faire plusieurs actions au click ...
+                    </script>
+                {% elseif modePaiement["payment_type"] == 'carteB' %}
+                    <script type="text/javascript"> //ouvre une popup avec la facture
+                        var target;
+                        target= document.getElementsByName('multiLinksTargetBanque')[0]; //récupère le bouton qui est juste au dessus grace au name = multiLinksTarget
+                        function multiLinks(){
+                            //window.open('index.php'); //ouvrir un target _blank
+                            window.open("https://www.carrefour-banque.fr/espace-client/connexion",'_blank', 'toolbar=0,location=0,menubar=0'); // ouvre une popup
+                            //window.location.href = "index.php"; // remplace la page courante
+                        }
+                        target.onclick = multiLinks; //lance la fonction multiLinks au click sur le bouton. autorise donc a faire plusieurs actions au click ...
+                    </script>
+                
+                {% endif %}
+
+                <a href="index.php?page=paiement" name = 'multiLinksTargetFacture'>
+                    <button type="button" class="btn btn-success btn-lg m-2">Générer Facture</button>
                 </a>
                 <script type="text/javascript"> //ouvre une popup avec la facture
                     var target;
-                    target= document.getElementsByName('multiLinksTarget')[0]; //récupère le bouton qui est juste au dessus grace au name = multiLinksTarget
+                    target= document.getElementsByName('multiLinksTargetFacture')[0]; //récupère le bouton qui est juste au dessus grace au name = multiLinksTarget
                     function multiLinks(){
                         //window.open('index.php'); //ouvrir un target _blank
                         window.open("index.php?page=facture&commande={{ id_panier }}",'_blank', 'toolbar=0,location=0,menubar=0'); // ouvre une popup
@@ -188,4 +217,4 @@
                     
 	</div>
 </div>
-{% endblock %}
+{% endblock %}https://www.carrefour-banque.fr/espace-client/connexion
