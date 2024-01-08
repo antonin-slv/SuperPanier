@@ -15,7 +15,7 @@ class ctrlAdmin {
     }
 
     public function afficherListeCommandes($status = -1) {
-        /*
+        
         //revérifier que l'utilisateur est bien admin
         if (!isset($_SESSION['admin'])) $oups = true;
         else if($_SESSION['admin'] !== true) $oups = true;
@@ -23,7 +23,7 @@ class ctrlAdmin {
             echo $this->twig->render('404.html.twig', array('page' => 'DU BIST NICHT EINE ADMINISTRATOR'));
             return;
         }
-        */
+        
         $commande = new commande(null);
         //on récupère les commandes en fonction du status que l'on cherche
         switch ($status) {
@@ -49,6 +49,13 @@ class ctrlAdmin {
     }
 
     public function afficherCommande($id) {
+        //revérifier que l'utilisateur est bien admin
+        if (!isset($_SESSION['admin'])) $oups = true;
+        else if($_SESSION['admin'] !== true) $oups = true;
+        if (isset($oups)) {
+            echo $this->twig->render('404.html.twig', array('page' => 'DU BIST NICHT EINE ADMINISTRATOR'));
+            return;
+        }
 
         $commande = new commande(intval($id));
         $info = $commande->getCommandInfo($id);//faire en 1ere requete (charge produits)

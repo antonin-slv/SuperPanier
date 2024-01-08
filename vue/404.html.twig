@@ -5,6 +5,8 @@
 
 {# Ici vous mettez vos codes HTML et balises Twig au besoin #}
 {% block body %}
-    <h1>La page que vous cherchez ({{page}}) n'existe pas</h1>
-    <p>Un paragraphe contenant pleins de mots à lire.</p>
+    <div class="text-center">
+    <h1>La page que vous cherchez n'existe pas :</h1>
+    <h2 style="color:red"> {{page}}</h2>
+
 {% endblock %}

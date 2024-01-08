@@ -3,7 +3,7 @@
 {% block body %}
 	<div class="container">
 	
-		<div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75" style="width: 400px;">
+		<div class="mx-auto mt-2 border border-blue p-3" style="width: 400px; background: rgba(255,255,255,0.5);">
 			<h3 class="text-center">Connexion</h3>
 			<form method="POST" action="index.php?page=connexion" class="p-4">
 
@@ -18,15 +18,15 @@
 				<!-- Password input -->
 				<div class="form-outline mb-4">
 					<input type="password" id="mdp" name="mdp" class="form-control" required/>
-					<label class="form-label" for="mdp" required>Password</label>
+					<label class="form-label" for="mdp" required>Mot de passe</label>
 				</div>
 				<!-- Submit button -->
-				<button type="Submit" name="action" value="connexion" class="btn btn-primary btn-block mb-4">Sign in</button>
+				<button type="Submit" name="action" value="connexion" class="btn btn-primary btn-block mb-4">Connexion</button>
 				{{error != "" ? "<p style=\"color:red;\">Vos informations de connexion sont incorrectes<p>" : ""}}
 				<!-- Register buttons -->
 				<div class="text-center">
-					<p>Not a member?
-						<a href="index.php?page=register">Register</a>
+					<p>Pas inscrit ?
+						<a href="index.php?page=register">Créer un Compte</a>
 					</p>
 				</div>
 			</form>

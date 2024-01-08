@@ -19,7 +19,7 @@
 			<!-- COMMENTAIRES ??-->
 		</div>
 		{% if admin %}
-			<div class="card-footer text-center">
+			<div class="container card-footer text-center">
 				<form action="index.php?action=addToStock&page=shop	{% if produit.cat_id == 1 %}&product=boissons
 																	{% elseif produit.cat_id == 2 %}&product=biscuits
 																	{% elseif produit.cat_id == 3 %}&product=fruits_sec
@@ -35,7 +35,7 @@
 						<a href="index.php?page=shop	{% if produit.cat_id == 1 %}&product=boissons
 														{% elseif produit.cat_id == 2 %}&product=biscuits
 														{% elseif produit.cat_id == 3 %}&product=fruits_sec
-														{% endif %}" class="btn btn-primary mt-1 m-auto">Retour</a>
+														{% endif %}" class="btn btn-primary mt-1 m-auto mu-5">Retour</a>
 					</div>
 				</form>
 			</div>
@@ -44,7 +44,7 @@
 				<h4 class="card-text text-danger text-uppercase">Victime de son succès !</h4>
 			</div>
 		{% else %}
-			<div class="card-footer">
+			<div class="card-footer container mb-2">
 				<form action="index.php?action=addToCart&page=shop	{% if produit.cat_id == 1 %}&product=boissons
 																	{% elseif produit.cat_id == 2 %}&product=biscuits
 																	{% elseif produit.cat_id == 3 %}&product=fruits_sec
@@ -54,13 +54,15 @@
 						<label for="quantity">Quantité:</label>
 						<input type="number" class="form-control" name="quantity" value="1" min="1" max="{{ produit.quantity }}">
 					</div>
-					<div class="col-md-4 d-flex">
-						<input type="submit" class="btn btn-success mt-1 ml-auto" value="Ajouter au panier">
+						<input type="submit" class="btn btn-success mt-1 ml-auto col-md-2" value="Ajouter au panier">
 					
 						<a href="index.php?page=shop	{% if produit.cat_id == 1 %}&product=boissons
 														{% elseif produit.cat_id == 2 %}&product=biscuits
 														{% elseif produit.cat_id == 3 %}&product=fruits_sec
-														{% endif %}" class="btn btn-primary mt-1 m-auto">Retour</a>
+														{% endif %}" style="padding: 16px;"
+														class="btn btn-primary mt-1 m-auto col-md-1"
+														
+														>Retour<a/>
 					</div>
 				</form>
 			</div>
