@@ -161,38 +161,8 @@ class Routeur
 
             if ($_POST['action'] == 'syncPanier') // l'utilsateur vient de se connecter eque ce n'est pas un admin
             {
-                //Si l'utilisateur s'est connecté sans toucher au panier
-                if (!isset($_SESSION['Panier'])) {
-                    //on dit juste au panier si l'user est connecté
-                    $panier = new Panier($_SESSION['Connected']);
-                    //soit on récupère l'ancien panier de l'utilisateur, soit on lui en crée un nouveau
-                    $panier->setPanierID($_SESSION['user_id']);
-                    //on récupère les produits du panier (ou rien XD)
-                    $_SESSION['Panier'] = $panier->loadBDDProducts();
-                    $_SESSION['Panier']['id'] = $panier->id;
-                }
-                else //si l'utilisateur a touché au panier
-                { 
-                    //on récupère le panier en cours
-                    $panier = new Panier($_SESSION['Panier']);
-
-                    if ($_SESSION['Connected'] ){ //si l'utilisateur c'est connecté
-
-                        $vraispanier = new Panier(true);
-                        $vraispanier->setPanierID($_SESSION['user_id']);
-                        $vraispanier->addCartToCart($panier->id);
-                        $panier->killCart();
-                        $_SESSION['Panier'] = $vraispanier->loadBDDProducts();
-                        $_SESSION['Panier']['id'] = $vraispanier->id;
-                    } 
-                    else { //si l'utilisateur vient de créer un compte
-                        $panier->fromGuestToUser($_SESSION['futur_user_id']);
-                        $panier->setPanierID($_SESSION['user_id'], true , $_SESSION['futur_user_id']);
-                        $_SESSION['Panier']['id'] = $panier->id;
-                    }
-                    
-                }
-                
+                $ctrlPanier = new CtrlPanier(null,null,null);
+                $ctrlPanier->syncPanierHuns();
             }
         }
 
