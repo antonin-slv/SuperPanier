@@ -6,3 +6,5 @@ Il y a aussi le scripte SQL pour créer la BDD.
 
 Pour lancer le site, il faut un serveur web (Apache) et un serveur SQL (MySQL) sur la machine.
 Il faut aussi avoir PHP et twig d'installé.
+
+Par Thomas Blanche et Antonin Sylvestre

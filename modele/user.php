@@ -48,11 +48,10 @@ class user extends Modele {
      */
     public function registerUserPOST() {
         //vérification du pseudo
-        $sql="SELECT * FROM logins WHERE username =\"". $_POST['pseudo'] ."\"";
+        $sql="SELECT id FROM logins JOIN admin WHERE username =\"". $_POST['pseudo'] ."\"";
         $rslt = $this->executerRequete($sql);
         $rslt = $rslt->fetch();
         if ($rslt) {//si il y a un résultat, alors le pseudo est déjà pris
-            
             return "Pseudo";
         }
         //vérification de l'adresse

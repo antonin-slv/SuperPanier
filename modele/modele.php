@@ -42,14 +42,6 @@ abstract class Modele
 
     protected function createAdresseFromPOST()
     {   
-
-        $adresse = array();
-        $adresse['numero_rue'] = $_POST['numero_rue'];
-        $adresse['rue'] = $_POST['rue'];
-        $adresse['ville'] = $_POST['ville'];
-        $adresse['code_postal'] = $_POST['code_postal'];
-        $adresse['info_supp'] = $_POST['info_supp'];
-
         $sql = "INSERT INTO adresses (numero, rue, ville, code_postal, info_supp, Pays) ";
         $sql .= "VALUES (:num, :rue, :ville, :codePostal, :infoSupp, :pays)";
         return $this->executerRequete($sql, array(
@@ -58,7 +50,7 @@ abstract class Modele
             'ville' => $_POST['ville'],
             'codePostal' => $_POST['code_postal'],
             'infoSupp' => $_POST['info_supp'],
-            'pays' => 'France'
+            'pays' => $_POST['pays']
         ));
     }
     protected function getUserAdress($user_id)

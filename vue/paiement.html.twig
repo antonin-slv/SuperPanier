@@ -5,7 +5,7 @@
         <!--formulaire pour l'adresses de facturation -->
         <form action="index.php?page=paiement&action=modifierAdresseFacturation" method="post">
             <input type="hidden" name="id_adresse" value={{ adresseFacturation.id }} />
-            <div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+            <div class="mx-auto mt-2 border border-blue p-3 rounded-4" style="background: rgba(230, 240, 255, 0.7);">
 
                 <div class="row justify-content-md-center">
                     <div class="col-lg-8 pt-5">
@@ -69,7 +69,8 @@
         <!--formulaire pour l'adresses de livraison -->
         <form action="index.php?page=paiement&action=modifierAdresseLivraison" method="post">
             <input type="hidden" name="id_adresse" value={{ adresseLivraison.id }} />
-            <div class="mx-auto mt-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+            <div class="mx-auto mt-2 border border-blue p-3 rounded-4"
+                style="background: rgba(230, 240, 255, 0.7);">
 
                 <div class="row justify-content-md-center">
                     <div class="col-lg-6 pt-5 mb-5">
@@ -135,7 +136,7 @@
 
         <!--formulaire pour le mode de paiement-->
         <form action="index.php?page=paiement&action=modifierModePaiement" method="post">
-            <div class="mx-auto my-2 border border-blue p-3 bg-white opacity-75 rounded-4">
+            <div class="mx-auto my-2 border border-blue p-3 rounded-4" style="background-color: rgba(230, 240, 255, 0.6);">
                 <div class="row justify-content-md-center">
                     <div class="col-lg-6 px-5">
                         <h3 class="fw-normal mb-5">Mode de Paiement :</h3>
